@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Attente </title>
+    <title>Compte à rebours futuriste holographique avancé</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column; /* Ajouté pour empiler les éléments */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -94,9 +95,18 @@
             0% { background-position: 0 0; }
             100% { background-position: 0 100px; }
         }
+
+        /* Style pour le message */
+        .message {
+            font-size: 2rem;
+            color: #0ff;
+            margin-bottom: 20px; /* Espacement entre le message et le compte à rebours */
+            text-align: center; /* Centrer le texte */
+        }
     </style>
 </head>
 <body>
+    <div class="message">Léa on se voit bientôt</div> <!-- Ajouté ici -->
     <div class="countdown-container">
         <div class="countdown">
             <div class="unit">
@@ -122,18 +132,18 @@
     <script>
         // Définir la date cible pour demain à 13h30
         const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 1); // Nbr jours
-        targetDate.setHours(13); // Heure
-        targetDate.setMinutes(30); // Minutes
-        targetDate.setSeconds(0); // Secondes
+        targetDate.setDate(targetDate.getDate() + 1); // Demain
+        targetDate.setHours(13, 30, 0, 0); // 13h30
 
         function updateCountdown() {
             const now = new Date();
             let diff = targetDate - now;
 
             if (diff <= 0) {
-                // Réinitialiser le compte à rebours à zéro lorsqu'il atteint zéro
-                diff = 0;
+                // Réinitialiser le compte à rebours à 13h30 demain
+                targetDate.setDate(targetDate.getDate() + 1); // Remettre à demain
+                targetDate.setHours(13, 30, 0, 0); // Réinitialiser à 13h30
+                diff = targetDate - now;
             }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
