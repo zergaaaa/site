@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Casse-Brique - Contrôle avec le doigt</title>
+    <title>Jeu de Casse-Brique</title>
     <style>
         body {
             margin: 0;
@@ -18,9 +18,9 @@
 
         canvas {
             background-color: #000;
-            width: 100vw; /* 100% de la largeur de la fenêtre */
-            height: 100vh; /* 100% de la hauteur de la fenêtre */
-            touch-action: none; /* Empêche le défilement lorsque l'on touche le canvas */
+            width: 100%; /* 100% de la largeur de la fenêtre */
+            height: 100%; /* 100% de la hauteur de la fenêtre */
+            touch-action: none; /* Empêche le défilement lors du touch */
         }
     </style>
 </head>
@@ -35,11 +35,12 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            drawPaddle(); // Redessiner la barre après le redimensionnement
         }
 
         let ballRadius = 10;
         let x = canvas.width / 2;
-        let y = canvas.height - 40; // Position initiale de la balle
+        let y = canvas.height - 30; // Position initiale de la balle
         let dx = 2;
         let dy = -2;
 
@@ -47,8 +48,8 @@
         let paddleWidth = 75;
         let paddleX = (canvas.width - paddleWidth) / 2;
 
-        // Position de la barre (ajustée pour être mieux placée)
-        const paddleY = canvas.height - paddleHeight - 20; // Positionne la barre un peu plus haut
+        // Position de la barre (ajustée)
+        const paddleY = canvas.height - paddleHeight - 30; // Positionne la barre
 
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
