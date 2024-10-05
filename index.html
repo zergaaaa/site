@@ -111,6 +111,7 @@
             box-shadow: 0 0 10px rgba(255, 102, 204, 0.5);
             text-shadow: 0 0 5px #ff66cc;
             transition: transform 0.3s ease;
+            z-index: 20;
         }
 
         .chat-button:hover {
@@ -138,6 +139,7 @@
             height: 80%;
             overflow-y: auto;
             color: #0ff;
+            position: relative;
         }
 
         .chat-input {
@@ -145,6 +147,29 @@
             padding: 5px;
             margin-top: 10px;
             font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Styles pour les messages flottants */
+        .floating-message {
+            position: absolute;
+            color: #0ff;
+            animation: float 6s infinite;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -236,12 +261,30 @@
                 if (message.trim() !== '') {
                     const p = document.createElement('p');
                     p.textContent = message;
+                    p.classList.add('floating-message');
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = Math.random() * 100 + 'vh';
                     chatMessages.appendChild(p);
                     chatInput.value = '';
-                    // Sauvegarder le message sur le site ou dans le stockage local ici
                 }
             }
         });
+
+        // Fonction pour faire flotter tous les messages
+        function floatMessages() {
+            const messages = document.querySelectorAll('.floating-message');
+            messages.forEach((message) => {
+                message.style.position = 'absolute';
+                message.style.transition = 'all 6s';
+                message.style.opacity = '0.8';
+                setTimeout(() => {
+                    message.style.transform = 'translateY(-50px)';
+                    message.style.opacity = '0';
+                }, 2000); // Commencer à flotter après 2 secondes
+            });
+        }
+
+        setInterval(floatMessages, 10000); // Chaque 10 secondes
     </script>
 </body>
 
