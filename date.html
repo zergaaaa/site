@@ -121,6 +121,26 @@
             0% { top: -50%; }
             100% { top: 110%; }
         }
+        .return-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto 0;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #0ff;
+            border-radius: 5px;
+            color: #0ff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        .return-button:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px #0ff;
+        }
     </style>
 </head>
 <body>
@@ -156,6 +176,7 @@
                 <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/461490273_431232046247967_675265983645925061_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=Jp1FFEJN5uUQ7kNvgGXFfu1&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=A3jV42eZUKi8Q2fmK3K6YYr&oh=03_Q7cD1QFDD6MDrq75CvAmNQdWe7bOjbnoXt6Nm42VXkysceCy0A&oe=67293729" alt="Souvenir 4">
             </div>
             <textarea id="personal-message" rows="4" placeholder="Écrivez un message ici..."></textarea>
+            <a href="compte_a_rebours.html" class="return-button">Retour</a>
         </div>
     </div>
     <script>
