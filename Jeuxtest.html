@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Casse-Brique</title>
+    <title>Jeu de Pong</title>
     <style>
         body {
             margin: 0;
@@ -13,29 +13,43 @@
             align-items: center;
             height: 100vh;
             background-color: #282c34;
-            overflow: hidden; /* Empêche le défilement */
+            overflow: hidden;
+            position: relative; /* Pour le compteur */
         }
 
         canvas {
             background-color: #000;
-            width: 100%; /* 100% de la largeur de la fenêtre */
-            height: 100%; /* 100% de la hauteur de la fenêtre */
-            touch-action: none; /* Empêche le défilement lors du touch */
+            width: 100%;
+            height: 100%;
+            touch-action: none; /* Empêche le défilement lors du toucher */
+        }
+
+        .score {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #00ff00;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            z-index: 10;
         }
     </style>
 </head>
 <body>
     <canvas id="myCanvas"></canvas>
+    <div class="score" id="score">Points: 0</div>
 
     <script>
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
+        const scoreElement = document.getElementById("score");
 
         // Redimensionner le canvas pour qu'il corresponde à la fenêtre
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            drawPaddle(); // Redessiner la barre après le redimensionnement
+            paddleY = canvas.height - paddleHeight - 30; // Réajuster la position de la barre
         }
 
         let ballRadius = 10;
@@ -45,11 +59,10 @@
         let dy = -2;
 
         let paddleHeight = 15; // Hauteur de la barre
-        let paddleWidth = 75;
+        let paddleWidth = 100; // Largeur de la barre
         let paddleX = (canvas.width - paddleWidth) / 2;
 
-        // Position de la barre (ajustée)
-        const paddleY = canvas.height - paddleHeight - 30; // Positionne la barre
+        let score = 0; // Compteur de points
 
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -82,16 +95,20 @@
 
         function drawPaddle() {
             ctx.beginPath();
-            ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight); // Utilise paddleY pour le dessin
+            ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
             ctx.fillStyle = "#00ff00";
             ctx.fill();
             ctx.closePath();
         }
 
+        function updateScore() {
+            scoreElement.textContent = "Points: " + score; // Met à jour le texte du score
+        }
+
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
-            drawPaddle(); // Dessiner la barre sur le canvas
+            drawPaddle(); // Dessine la barre
 
             // Rebondir sur les bords
             if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
@@ -102,7 +119,10 @@
             } else if (y + dy > paddleY - ballRadius) { // Vérifie la collision avec la barre
                 if (x > paddleX && x < paddleX + paddleWidth) {
                     dy = -dy; // Inverser la direction de la balle
+                    score++; // Augmente le score
+                    updateScore(); // Met à jour le score affiché
                 } else {
+                    alert("Game Over! Votre score est: " + score);
                     document.location.reload(); // Recharger la page si la balle tombe
                 }
             }
@@ -114,7 +134,8 @@
             requestAnimationFrame(draw);
         }
 
-        // Redimensionner le canvas au démarrage
+        // Initialiser le jeu
+        let paddleY = canvas.height - paddleHeight - 40; // Position de la barre
         resizeCanvas();
         draw();
     </script>
