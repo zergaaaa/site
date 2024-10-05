@@ -15,6 +15,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -110,6 +111,28 @@
             z-index: 15;
         }
 
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 0, 204, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: #0ff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            max-width: 200px; /* Limite la largeur du bouton sur les grands écrans */
+        }
+
+        .button:hover {
+            background: rgba(255, 0, 204, 0.3);
+            transform: scale(1.05);
+        }
+
         /* Styles pour les petits écrans */
         @media (max-width: 600px) {
             .number {
@@ -131,6 +154,10 @@
 
             .message {
                 font-size: 1.2rem;
+            }
+
+            .button {
+                font-size: 1rem;
             }
         }
     </style>
@@ -157,6 +184,7 @@
             </div>
         </div>
     </div>
+    <button class="button" onclick="window.location.href='date.html'">Date</button>
     <div class="hologram"></div>
 
     <script>
