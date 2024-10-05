@@ -39,7 +39,7 @@
 
         let ballRadius = 10;
         let x = canvas.width / 2;
-        let y = canvas.height - 30;
+        let y = canvas.height - 40; // Position initiale de la balle
         let dx = 2;
         let dy = -2;
 
@@ -47,8 +47,8 @@
         let paddleWidth = 75;
         let paddleX = (canvas.width - paddleWidth) / 2;
 
-        // Position de la barre (un peu plus haut)
-        const paddleY = canvas.height - paddleHeight - 30; // Élévation de la barre
+        // Position de la barre (ajustée pour être mieux placée)
+        const paddleY = canvas.height - paddleHeight - 20; // Positionne la barre un peu plus haut
 
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
