@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte à rebours Noël</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a2e;
+            background-image: url('https://www.blog-nouvelles-technologies.fr/wp-content/uploads/2017/11/snowy_christmas_tree_lights-wide.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Mountains of Christmas', cursive;
+            color: white;
+            overflow: hidden;
+            position: relative;
+            cursor: url('https://upload.wikimedia.org/wikipedia/commons/7/73/Snowflake-cursor.png'), auto;
+        }
+
+        .countdown-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 2;
+            width: 90%;
+            max-width: 600px; /* Limite la largeur sur les grands écrans */
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Pour que les éléments se placent bien sur mobile */
+        }
+
+        .unit {
+            flex: 1;
+            text-align: center;
+            background: rgba(255, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+            border: 2px solid gold;
+        }
+
+        .number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff700;
+            text-shadow: 0 0 10px #fff700, 0 0 20px #ff9900, 0 0 30px #ff0000;
+        }
+
+        .label {
+            font-size: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .header {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff700;
+            text-shadow: 0 0 10px #ff9900, 0 0 20px #ff0000;
+        }
+
+        /* Flocons de neige animés */
+        .snowflake {
+            position: absolute;
+            top: -50px;
+            color: white;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Image du Père Noël */
+        .santa {
+            position: absolute;
+            right: 10px;
+            bottom: 0;
+            width: 150px; /* Taille plus petite pour mobile */
+            height: auto;
+            z-index: 1;
+        }
+
+        /* Media queries pour les petits écrans */
+        @media (max-width: 600px) {
+            .number {
+                font-size: 3rem; /* Réduit la taille des chiffres sur mobile */
+            }
+
+            .unit {
+                padding: 10px; /* Réduit l'espace autour des chiffres */
+            }
+
+            .header {
+                font-size: 1.2rem; /* Réduit la taille du texte de la bannière */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <div class="header">🎄 Compte à rebours jusqu'à Noël 🎅</div>
+        <div class="countdown">
+            <div class="unit">
+                <div class="number" data-value="00" id="days">00</div>
+                <div class="label">Jours</div>
+            </div>
+            <div class="unit">
+                <div class="number" data-value="00" id="hours">00</div>
+                <div class="label">Heures</div>
+            </div>
+            <div class="unit">
+                <div class="number" data-value="00" id="minutes">00</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="unit">
+                <div class="number" data-value="00" id="seconds">00</div>
+                <div class="label">Secondes</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image du Père Noël -->
+    <img src="https://png.pngtree.com/png-vector/20231014/ourmid/pngtree-cute-santa-claus-full-body-with-transparent-background-png-image_10284062.png" alt="Père Noël" class="santa">
+
+    <!-- Animation des flocons de neige -->
+    <div class="snowflake" style="left: 10%;">❄️</div>
+    <div class="snowflake" style="left: 30%;">❄️</div>
+    <div class="snowflake" style="left: 50%;">❄️</div>
+    <div class="snowflake" style="left: 70%;">❄️</div>
+    <div class="snowflake" style="left: 90%;">❄️</div>
+
+    <!-- Ajout de la musique de fond -->
+    <audio autoplay loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-christmas.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Configuration pour le compte à rebours vers Noël (25 décembre à 00h00)
+        let targetDate = new Date('December 25, ' + new Date().getFullYear() + ' 00:00:00');
+
+        function updateCountdown() {
+            const now = new Date();
+            let diff = targetDate - now;
+
+            if (diff <= 0) {
+                targetDate = new Date('December 25, ' + (new Date().getFullYear() + 1) + ' 00:00:00');
+                diff = targetDate - now;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            updateUnit('days', days);
+            updateUnit('hours', hours);
+            updateUnit('minutes', minutes);
+            updateUnit('seconds', seconds);
+        }
+
+        function updateUnit(id, value) {
+            const element = document.getElementById(id);
+            const formattedValue = value.toString().padStart(2, '0');
+            element.textContent = formattedValue;
+            element.setAttribute('data-value', formattedValue);
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Appel initial
+    </script>
+</body>
+</html>
