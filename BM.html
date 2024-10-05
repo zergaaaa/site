@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Voleur</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB; /* Ciel bleu */
+        }
+
+        canvas {
+            background-color: #8B4513; /* Couleur du sol */
+            display: block;
+            margin: 0 auto;
+        }
+
+        .score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            font-size: 40px;
+            font-family: Arial, sans-serif;
+            display: none; /* Masquer par défaut */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div class="score" id="score">Points: 0</div>
+    <div class="game-over" id="gameOver">Game Over</div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreElement = document.getElementById("score");
+        const gameOverElement = document.getElementById("gameOver");
+
+        // Variables du jeu
+        let score = 0;
+        let gameOver = false;
+
+        // Le joueur
+        const player = {
+            x: 50,
+            y: 320,
+            width: 30,
+            height: 30,
+            color: 'blue',
+            speed: 5,
+            jumpPower: 10,
+            dy: 0,
+            jumping: false,
+        };
+
+        // Enfants
+        const children = [];
+        const numChildren = 5; // Nombre d'enfants à kidnapper
+
+        // Policier
+        const police = {
+            x: 600,
+            y: 320,
+            width: 30,
+            height: 30,
+            color: 'red',
+            speed: 2,
+            direction: 1 // 1 = vers la droite, -1 = vers la gauche
+        };
+
+        // Générer les enfants
+        for (let i = 0; i < numChildren; i++) {
+            const child = {
+                x: Math.random() * (canvas.width - 30),
+                y: Math.random() * (canvas.height - 60) + 50,
+                width: 20,
+                height: 20,
+                color: 'yellow',
+                kidnapped: false,
+            };
+            children.push(child);
+        }
+
+        // Gérer les entrées clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowRight') {
+                player.x += player.speed;
+            } else if (e.code === 'ArrowLeft') {
+                player.x -= player.speed;
+            } else if (e.code === 'Space' && !player.jumping) {
+                player.dy = -player.jumpPower;
+                player.jumping = true;
+            }
+        });
+
+        // Fonction principale de jeu
+        function gameLoop() {
+            if (gameOver) return;
+
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dessiner le joueur
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Gestion de la gravité
+            player.dy += 0.5; // Force de gravité
+            player.y += player.dy;
+
+            // Détecter le sol
+            if (player.y + player.height >= canvas.height) {
+                player.y = canvas.height - player.height;
+                player.dy = 0;
+                player.jumping = false;
+            }
+
+            // Dessiner les enfants
+            children.forEach((child) => {
+                if (!child.kidnapped) {
+                    ctx.fillStyle = child.color;
+                    ctx.fillRect(child.x, child.y, child.width, child.height);
+                }
+            });
+
+            // Dessiner le policier
+            ctx.fillStyle = police.color;
+            ctx.fillRect(police.x, police.y, police.width, police.height);
+
+            // Déplacer le policier
+            police.x += police.speed * police.direction;
+            if (police.x + police.width > canvas.width || police.x < 0) {
+                police.direction *= -1; // Change de direction
+            }
+
+            // Vérifier la collision avec les enfants
+            children.forEach((child) => {
+                if (!child.kidnapped && 
+                    player.x < child.x + child.width && 
+                    player.x + player.width > child.x &&
+                    player.y < child.y + child.height &&
+                    player.y + player.height > child.y) {
+                    child.kidnapped = true;
+                    score += 10; // Augmente le score
+                }
+            });
+
+            // Mettre à jour le score
+            scoreElement.textContent = `Points: ${score}`;
+
+            // Vérifier la collision avec le policier
+            if (player.x < police.x + police.width && 
+                player.x + player.width > police.x &&
+                player.y < police.y + police.height &&
+                player.y + player.height > police.y) {
+                gameOver = true;
+                gameOverElement.style.display = 'block'; // Affiche le message Game Over
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Démarrer le jeu
+        gameLoop();
+    </script>
+</body>
+</html>
