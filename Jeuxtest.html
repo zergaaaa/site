@@ -105,7 +105,7 @@
             extraBalls.forEach((ball) => {
                 ctx.beginPath();
                 ctx.arc(ball.x, ball.y, ballRadius, 0, Math.PI * 2);
-                ctx.fillStyle = "#00ff00"; // Couleur des balles supplémentaires
+                ctx.fillStyle = "#ff0000"; // Couleur rouge pour les balles supplémentaires
                 ctx.fill();
                 ctx.closePath();
             });
@@ -148,8 +148,8 @@
                             extraBalls.push({
                                 x: Math.random() * canvas.width,
                                 y: Math.random() * (canvas.height / 2), // Positionner aléatoirement
-                                dx: (Math.random() * 4 - 2), // Vitesse horizontale aléatoire
-                                dy: (Math.random() * -2 - 2) // Vitesse verticale vers le haut
+                                dx: dx, // Vitesse horizontale identique à la balle principale
+                                dy: dy // Vitesse verticale identique à la balle principale
                             });
                         }
                     }
@@ -167,6 +167,14 @@
             extraBalls.forEach((ball, index) => {
                 ball.x += ball.dx;
                 ball.y += ball.dy;
+
+                // Vérifie la collision avec la barre pour les balles supplémentaires
+                if (ball.y + ballRadius > paddleY && ball.y - ballRadius < paddleY + paddleHeight && 
+                    ball.x > paddleX && ball.x < paddleX + paddleWidth) {
+                    score++; // Augmente le score pour avoir touché une balle supplémentaire
+                    extraBalls.splice(index, 1); // Supprime la balle de la liste
+                    updateScore(); // Met à jour le score affiché
+                }
 
                 // Si une balle supplémentaire touche le bas de l'écran, elle disparaît
                 if (ball.y > canvas.height + ballRadius) {
