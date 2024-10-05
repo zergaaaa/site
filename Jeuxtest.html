@@ -55,10 +55,12 @@
         let ballRadius = 10;
         let x = canvas.width / 2;
         let y = canvas.height - 30; // Position initiale de la balle
-        let dx = 2;
-        let dy = -2;
 
-        let paddleHeight = 20; // Augmenter la hauteur de la barre
+        // Augmenter la vitesse de la balle
+        let dx = 4; // Vitesse horizontale de la balle
+        let dy = -4; // Vitesse verticale de la balle
+
+        let paddleHeight = 20; // Hauteur de la barre
         let paddleWidth = 100; // Largeur de la barre
         let paddleX = (canvas.width - paddleWidth) / 2;
 
