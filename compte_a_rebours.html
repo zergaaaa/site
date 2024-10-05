@@ -4,50 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte à rebours futuriste holographique avancé</title>
+
+    <!-- Lien favicon (optionnel) -->
+    <link rel="icon" href="https://favicongenerator.s3.amazonaws.com/2ee1ac5efd743.png" type="image/png">
+
     <style>
-        <script>
-          setTimeout(() => {
-            let favicon_video_image_counter = 0;
-            let favicon_video_icon_tag = document.querySelector("link[rel='icon']");
-            let favicon_video_images = [
-        "https://favicongenerator.s3.amazonaws.com/2ee1ac5efd743.png","https://favicongenerator.s3.amazonaws.com/b09a64bc994cb.png","https://favicongenerator.s3.amazonaws.com/7d792bc605586.png","https://favicongenerator.s3.amazonaws.com/066163970494.png","https://favicongenerator.s3.amazonaws.com/233dc8b04b7ad.png","https://favicongenerator.s3.amazonaws.com/e2e0978f785c1.png","https://favicongenerator.s3.amazonaws.com/de18043f8a77a.png","https://favicongenerator.s3.amazonaws.com/08dee6684cd72.png","https://favicongenerator.s3.amazonaws.com/df5888133c024.png"];
-            async function favicon_video_to_data_url(url, callback) {
-              let xhr = new XMLHttpRequest();
-              xhr.onload = function () {
-                let reader = new FileReader();
-                reader.onloadend = function () {
-                  callback(reader.result);
-                };
-                reader.readAsDataURL(xhr.response);
-              };
-              xhr.open("GET", url);
-              xhr.responseType = "blob";
-              xhr.send();
-            }
-          
-            let favicon_video_loaded_images = [];
-          
-            favicon_video_images.map((url, idx) => {
-              favicon_video_to_data_url(url, function (dataUrl) {
-                favicon_video_loaded_images[idx] = dataUrl;
-              });
-            });
-          
-            setInterval(function () {
-              if(favicon_video_loaded_images[favicon_video_image_counter]) {
-                favicon_video_icon_tag.href = favicon_video_loaded_images[
-                  favicon_video_image_counter
-                ].replace("application/octet-stream", "image/png");
-              }
-              if (
-                favicon_video_image_counter ==
-                favicon_video_loaded_images.length - 1
-              )
-                favicon_video_image_counter = 0;
-              else favicon_video_image_counter++;
-            }, 100);
-          }, 2000);
-        </script>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
         body {
@@ -172,7 +133,6 @@
                 font-size: 1.2rem;
             }
         }
-
     </style>
 </head>
 <body>
@@ -200,7 +160,7 @@
     <div class="hologram"></div>
 
     <script>
-        // Définir la date cible pour demain à 13h30
+        // Script pour le compte à rebours
         const targetDate = new Date();
         targetDate.setDate(targetDate.getDate() + 1);
         targetDate.setHours(13);
@@ -234,7 +194,48 @@
         }
 
         setInterval(updateCountdown, 1000);
-        updateCountdown(); 
+        updateCountdown(); // Initial call to set countdown immediately
+
+        // Script pour le favicon animé
+        let favicon_video_image_counter = 0;
+        const favicon_video_icon_tag = document.querySelector("link[rel='icon']");
+        const favicon_video_images = [
+            "https://favicongenerator.s3.amazonaws.com/2ee1ac5efd743.png",
+            "https://favicongenerator.s3.amazonaws.com/b09a64bc994cb.png",
+            "https://favicongenerator.s3.amazonaws.com/7d792bc605586.png",
+            "https://favicongenerator.s3.amazonaws.com/066163970494.png"
+        ];
+
+        const favicon_video_loaded_images = [];
+
+        function loadFavicon(url, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    callback(reader.result);
+                };
+                reader.readAsDataURL(xhr.response);
+            };
+            xhr.open("GET", url);
+            xhr.responseType = "blob";
+            xhr.send();
+        }
+
+        favicon_video_images.forEach((url, idx) => {
+            loadFavicon(url, function (dataUrl) {
+                favicon_video_loaded_images[idx] = dataUrl;
+            });
+        });
+
+        setInterval(function () {
+            if (favicon_video_loaded_images[favicon_video_image_counter]) {
+                favicon_video_icon_tag.href = favicon_video_loaded_images[
+                    favicon_video_image_counter
+                ].replace("application/octet-stream", "image/png");
+            }
+            favicon_video_image_counter = (favicon_video_image_counter + 1) % favicon_video_loaded_images.length;
+        }, 1000); // Change every second
     </script>
 </body>
 </html>
