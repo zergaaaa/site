@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte à rebours futuriste avec Chat holographique</title>
+    <title>Compte à rebours avec cœurs et chat holographique</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -18,8 +17,14 @@
             background-color: #404;
             font-family: 'Orbitron', sans-serif;
             overflow: hidden;
-            perspective: 1000px;
-            position: relative;
+        }
+
+        h1 {
+            position: absolute;
+            top: 10px;
+            color: #fff;
+            font-size: 2.5rem;
+            text-align: center;
         }
 
         .countdown-container {
@@ -68,6 +73,30 @@
             margin-top: 10px;
         }
 
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 85%, 15% 100%, 0% 35%);
+            animation: float 10s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
         .hologram {
             position: fixed;
             top: 0;
@@ -87,95 +116,113 @@
         }
 
         @keyframes hologram-move {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 0 100px;
-            }
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
         }
 
-        /* Bouton de chat holographique */
         .chat-button {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
-            background: rgba(255, 102, 204, 0.3);
-            border: 2px solid #ff66cc;
-            color: #0ff;
-            font-size: 1.5rem;
-            padding: 10px 20px;
+            background: rgba(0, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(0, 255, 255, 0.5);
             border-radius: 50px;
+            padding: 15px;
+            font-size: 20px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 102, 204, 0.5);
-            text-shadow: 0 0 5px #ff66cc;
-            transition: transform 0.3s ease;
-            z-index: 20;
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            animation: holographic-btn 2s infinite;
         }
 
-        .chat-button:hover {
-            transform: scale(1.1);
+        @keyframes holographic-btn {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+            }
         }
 
-        /* Fenêtre de chat holographique */
+        /* Hologram style for the chat window */
         .chat-window {
-            display: none;
             position: fixed;
-            top: 80px;
+            bottom: 80px;
             right: 20px;
             width: 300px;
             height: 400px;
-            background: rgba(255, 102, 204, 0.1);
-            border: 2px solid #ff66cc;
+            background-color: rgba(255, 102, 204, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.5);
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 102, 204, 0.5);
-            z-index: 20;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.2);
+            animation: holographic-chat 3s infinite;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        @keyframes holographic-chat {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        .chat-header {
+            background-color: rgba(0, 255, 255, 0.2);
+            color: white;
             padding: 10px;
-            overflow-y: auto;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            font-size: 18px;
         }
 
         .chat-messages {
-            height: 80%;
+            padding: 10px;
+            height: 300px;
             overflow-y: auto;
-            color: #0ff;
-            position: relative;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .chat-input {
             width: 100%;
-            padding: 5px;
-            margin-top: 10px;
-            font-family: 'Orbitron', sans-serif;
+            padding: 10px;
+            border: none;
+            border-top: 1px solid rgba(0, 255, 255, 0.5);
         }
 
-        /* Styles pour les messages flottants */
-        .floating-message {
-            position: absolute;
-            color: #0ff;
-            animation: float 6s infinite;
-            opacity: 0.8;
-            pointer-events: none;
+        .chat-input input {
+            width: calc(100% - 50px);
+            padding: 10px;
+            border: none;
+            background: rgba(0, 255, 255, 0.1);
+            color: white;
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
+        .chat-input button {
+            width: 50px;
+            background-color: rgba(255, 102, 204, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
         }
+
     </style>
 </head>
-
 <body>
-    <h1 style="position: absolute; top: 50px; color: #fff;">Léa on se voit bientôt</h1>
+    <h1>Léa, on se voit bientôt !</h1>
     <div class="countdown-container">
         <div class="countdown">
             <div class="unit">
@@ -196,23 +243,37 @@
             </div>
         </div>
     </div>
-    <div class="hologram"></div>
 
-    <!-- Bouton de chat holographique -->
-    <div class="chat-button">Chat</div>
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-duration: 7s;"></div>
+    <div class="heart" style="left: 30%; animation-duration: 8s;"></div>
+    <div class="heart" style="left: 50%; animation-duration: 5s;"></div>
+    <div class="heart" style="left: 70%; animation-duration: 6s;"></div>
+    <div class="heart" style="left: 90%; animation-duration: 7s;"></div>
 
-    <!-- Fenêtre de chat -->
-    <div class="chat-window">
-        <div class="chat-messages">
-            <p>Aucun message pour le moment...</p>
+    <button class="chat-button" onclick="toggleChat()">Chat</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">Chat</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Votre message...">
+            <button onclick="sendMessage()">Envoyer</button>
         </div>
-        <input type="text" class="chat-input" placeholder="Votre message...">
     </div>
 
     <script>
-        // Réglage du compte à rebours pour aujourd'hui 13h30
-        const targetDate = new Date();
-        targetDate.setHours(13, 30, 0, 0);
+        // Vérifie si une date cible existe déjà dans le stockage local
+        let targetDate = localStorage.getItem('targetDate');
+
+        if (!targetDate) {
+            targetDate = new Date();
+            targetDate.setHours(13, 30, 0, 0); // Demain à 13h30
+            targetDate.setDate(targetDate.getDate() + 1);
+            localStorage.setItem('targetDate', targetDate);
+        } else {
+            targetDate = new Date(targetDate);
+        }
 
         function updateCountdown() {
             const now = new Date();
@@ -243,49 +304,53 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Appel initial
 
-        // Gestion de l'affichage du chat
-        const chatButton = document.querySelector('.chat-button');
-        const chatWindow = document.querySelector('.chat-window');
-
-        chatButton.addEventListener('click', () => {
-            chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'block' : 'none';
-        });
-
-        // Sauvegarde des messages
-        const chatInput = document.querySelector('.chat-input');
-        const chatMessages = document.querySelector('.chat-messages');
-
-        chatInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                const message = chatInput.value;
-                if (message.trim() !== '') {
-                    const p = document.createElement('p');
-                    p.textContent = message;
-                    p.classList.add('floating-message');
-                    p.style.left = Math.random() * 100 + 'vw';
-                    p.style.top = Math.random() * 100 + 'vh';
-                    chatMessages.appendChild(p);
-                    chatInput.value = '';
-                }
+        // Fonction pour basculer la visibilité du chat
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
+                chatWindow.style.display = 'block';
+            } else {
+                chatWindow.style.display = 'none';
             }
-        });
-
-        // Fonction pour faire flotter tous les messages
-        function floatMessages() {
-            const messages = document.querySelectorAll('.floating-message');
-            messages.forEach((message) => {
-                message.style.position = 'absolute';
-                message.style.transition = 'all 6s';
-                message.style.opacity = '0.8';
-                setTimeout(() => {
-                    message.style.transform = 'translateY(-50px)';
-                    message.style.opacity = '0';
-                }, 2000); // Commencer à flotter après 2 secondes
-            });
         }
 
-        setInterval(floatMessages, 10000); // Chaque 10 secondes
+        // Fonction pour envoyer un message dans le chat et le sauvegarder localement
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+
+            if (message !== '') {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatInput.value = '';
+
+                // Sauvegarde les messages localement
+                saveMessages();
+            }
+        }
+
+        // Charger les messages depuis le localStorage
+        function loadMessages() {
+            const savedMessages = localStorage.getItem('chatMessages');
+            const chatMessages = document.getElementById('chatMessages');
+
+            if (savedMessages) {
+                chatMessages.innerHTML = savedMessages;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Sauvegarde les messages dans le localStorage
+        function saveMessages() {
+            const chatMessages = document.getElementById('chatMessages').innerHTML;
+            localStorage.setItem('chatMessages', chatMessages);
+        }
+
+        // Charger les messages au démarrage
+        loadMessages();
     </script>
 </body>
-
 </html>
