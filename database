@@ -53,12 +53,13 @@
     <script>
         // Configuration de Firebase
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBVu4gL6P2Mn2IrbxfioqBJdjVpWpQ_2aQ",
+    authDomain: "site-chrono.firebaseapp.com",
+    databaseURL: "https://site-chrono-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "site-chrono",
+    storageBucket: "site-chrono.appspot.com",
+    messagingSenderId: "549294372815",
+    appId: "1:549294372815:web:fae5e1fab20c69b81384ba",
         };
 
         // Initialisation de Firebase
