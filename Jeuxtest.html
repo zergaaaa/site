@@ -148,8 +148,8 @@
                             extraBalls.push({
                                 x: Math.random() * canvas.width,
                                 y: Math.random() * (canvas.height / 2), // Positionner aléatoirement
-                                dx: dx, // Vitesse horizontale identique à la balle principale
-                                dy: dy // Vitesse verticale identique à la balle principale
+                                dx: 4 * (Math.random() < 0.5 ? -1 : 1), // Vitesse horizontale aléatoire
+                                dy: 4 * (Math.random() < 0.5 ? -1 : 1) // Vitesse verticale aléatoire
                             });
                         }
                     }
@@ -179,6 +179,14 @@
                 // Si une balle supplémentaire touche le bas de l'écran, elle disparaît
                 if (ball.y > canvas.height + ballRadius) {
                     extraBalls.splice(index, 1); // Supprime la balle de la liste
+                }
+
+                // Gérer le rebond sur les bords pour les balles supplémentaires
+                if (ball.x + ballRadius > canvas.width || ball.x - ballRadius < 0) {
+                    ball.dx = -ball.dx; // Inverser la direction horizontale
+                }
+                if (ball.y - ballRadius < 0) {
+                    ball.dy = -ball.dy; // Inverser la direction verticale
                 }
             });
 
