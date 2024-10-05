@@ -69,6 +69,9 @@
         const colors = ["#00ff00", "#ff0000", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
         let currentColorIndex = 0; // Indice pour la couleur de la barre
 
+        // Liste pour les balles supplémentaires
+        let extraBalls = [];
+
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
         document.addEventListener("touchmove", touchMoveHandler, false);
@@ -93,9 +96,19 @@
         function drawBall() {
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#00ff00"; // Couleur de la balle
+            ctx.fillStyle = "#00ff00"; // Couleur de la balle principale
             ctx.fill();
             ctx.closePath();
+        }
+
+        function drawExtraBalls() {
+            extraBalls.forEach((ball) => {
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = "#00ff00"; // Couleur des balles supplémentaires
+                ctx.fill();
+                ctx.closePath();
+            });
         }
 
         function drawPaddle() {
@@ -113,6 +126,7 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
+            drawExtraBalls(); // Dessine les balles supplémentaires
             drawPaddle(); // Dessine la barre
 
             // Rebondir sur les bords
@@ -127,15 +141,38 @@
                     score++; // Augmente le score
                     currentColorIndex = (currentColorIndex + 1) % colors.length; // Change la couleur de la barre
                     updateScore(); // Met à jour le score affiché
+
+                    if (score === 10) {
+                        // Ajouter 3 balles supplémentaires
+                        for (let i = 0; i < 3; i++) {
+                            extraBalls.push({
+                                x: Math.random() * canvas.width,
+                                y: Math.random() * (canvas.height / 2), // Positionner aléatoirement
+                                dx: (Math.random() * 4 - 2), // Vitesse horizontale aléatoire
+                                dy: (Math.random() * -2 - 2) // Vitesse verticale vers le haut
+                            });
+                        }
+                    }
                 } else {
                     alert("Votre score est: " + score);
-                    document.location.reload(); // Recharger la page si la balle tombe
+                    document.location.reload(); // Recharger la page si la balle principale tombe
                 }
             }
 
-            // Mouvement de la balle
+            // Mouvement de la balle principale
             x += dx;
             y += dy;
+
+            // Gérer les balles supplémentaires
+            extraBalls.forEach((ball, index) => {
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+
+                // Si une balle supplémentaire touche le bas de l'écran, elle disparaît
+                if (ball.y > canvas.height + ballRadius) {
+                    extraBalls.splice(index, 1); // Supprime la balle de la liste
+                }
+            });
 
             requestAnimationFrame(draw);
         }
