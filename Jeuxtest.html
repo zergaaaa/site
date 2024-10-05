@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Casse-Brique - Contrôle avec la souris</title>
+    <title>Jeu de Casse-Brique - Contrôle avec le doigt</title>
     <style>
         body {
             margin: 0;
@@ -13,10 +13,12 @@
             align-items: center;
             height: 100vh;
             background-color: #282c34;
+            overflow: hidden; /* Empêche le défilement */
         }
 
         canvas {
             background-color: #000;
+            touch-action: none; /* Empêche le défilement lorsque l'on touche le canvas */
         }
     </style>
 </head>
@@ -37,11 +39,21 @@
         let paddleWidth = 75;
         let paddleX = (canvas.width - paddleWidth) / 2;
 
-        // Détecter le mouvement de la souris
+        // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
+        document.addEventListener("touchmove", touchMoveHandler, false);
 
         function mouseMoveHandler(e) {
             const relativeX = e.clientX - canvas.offsetLeft;
+            if (relativeX > 0 && relativeX < canvas.width) {
+                paddleX = relativeX - paddleWidth / 2;
+            }
+        }
+
+        function touchMoveHandler(e) {
+            e.preventDefault(); // Empêche le défilement de la page
+            const touch = e.touches[0]; // Prend le premier point de contact
+            const relativeX = touch.clientX - canvas.offsetLeft;
             if (relativeX > 0 && relativeX < canvas.width) {
                 paddleX = relativeX - paddleWidth / 2;
             }
