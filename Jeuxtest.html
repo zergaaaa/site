@@ -28,7 +28,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            color: #00ff00;
+            color: #00ff00; /* Couleur par défaut */
             font-family: 'Orbitron', sans-serif;
             font-size: 2rem;
             text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
@@ -65,6 +65,8 @@
         let paddleX = (canvas.width - paddleWidth) / 2;
 
         let score = 0; // Compteur de points
+        const colors = ["#00ff00", "#ff0000", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
+        let currentColorIndex = 0; // Indice pour la couleur de la barre
 
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -90,7 +92,7 @@
         function drawBall() {
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#00ff00";
+            ctx.fillStyle = "#00ff00"; // Couleur de la balle
             ctx.fill();
             ctx.closePath();
         }
@@ -98,7 +100,7 @@
         function drawPaddle() {
             ctx.beginPath();
             ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
-            ctx.fillStyle = "#00ff00";
+            ctx.fillStyle = colors[currentColorIndex]; // Couleur de la barre changeante
             ctx.fill();
             ctx.closePath();
         }
@@ -122,6 +124,7 @@
                 if (x > paddleX && x < paddleX + paddleWidth) {
                     dy = -dy; // Inverser la direction de la balle
                     score++; // Augmente le score
+                    currentColorIndex = (currentColorIndex + 1) % colors.length; // Change la couleur de la barre
                     updateScore(); // Met à jour le score affiché
                 } else {
                     alert("Votre score est: " + score);
@@ -136,10 +139,19 @@
             requestAnimationFrame(draw);
         }
 
+        // Fonction pour faire changer de couleur le score
+        function changeScoreColor() {
+            const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Générer une couleur aléatoire
+            scoreElement.style.color = randomColor; // Appliquer la couleur au score
+        }
+
         // Initialiser le jeu
         let paddleY = canvas.height - paddleHeight - 40; // Position de la barre
         resizeCanvas();
         draw();
+
+        // Change la couleur du score toutes les 500 ms
+        setInterval(changeScoreColor, 500);
     </script>
 </body>
 </html>
