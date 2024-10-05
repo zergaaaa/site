@@ -269,7 +269,7 @@
         if (!targetDate) {
             targetDate = new Date();
             targetDate.setHours(13, 30, 0, 0); // Demain à 13h30
-            targetDate.setDate(targetDate.getDate() + 1);
+            targetDate.setDate(targetDate.getDate() + 0);
             localStorage.setItem('targetDate', targetDate);
         } else {
             targetDate = new Date(targetDate);
