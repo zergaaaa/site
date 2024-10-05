@@ -352,5 +352,22 @@
         // Charger les messages au démarrage
         loadMessages();
     </script>
+    <script>
+    // Gestion de l'affichage du chat
+    const chatButton = document.querySelector('.chat-button');
+    const chatWindow = document.querySelector('.chat-window');
+
+    chatButton.addEventListener('click', () => {
+        // Toggle entre afficher et cacher la fenêtre de chat
+        if (chatWindow.style.display === 'none' || chatWindow.style.display === '') {
+            chatWindow.style.display = 'block';
+        } else {
+            chatWindow.style.display = 'none';
+        }
+    });
+
+    // Reste du script pour gérer le compte à rebours et autres
+</script>
+
 </body>
 </html>
