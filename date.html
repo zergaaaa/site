@@ -1,1 +1,168 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendez-vous Holographique</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #0ff;
+            height: 100%;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hologram {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #0ff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
+            animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse {
+            from { box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff; }
+            to { box-shadow: 0 0 40px #0ff, inset 0 0 40px #0ff; }
+        }
+        h1, h2 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .label {
+            font-weight: bold;
+            color: #fff;
+        }
+        .value {
+            color: #0ff;
+            text-shadow: 0 0 5px #0ff;
+        }
+        .gallery {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin: 10px;
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #0ff;
+        }
+        textarea {
+            width: 100%;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            color: #fff;
+            padding: 10px;
+            margin-top: 20px;
+            resize: vertical;
+        }
+        .lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            margin: auto;
+            width: 90vw;
+            z-index: -1;
+        }
+        .line {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            background: rgba(0, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        .line::after {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 15vh;
+            width: 100%;
+            top: -50%;
+            left: 0;
+            background: linear-gradient(to bottom, rgba(0, 255, 255, 0) 0%, #0ff 75%, #0ff 100%);
+            animation: drop 7s 0s infinite;
+            animation-fill-mode: forwards;
+            animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+        }
+        .line:nth-child(1) { margin-left: -25%; }
+        .line:nth-child(3) { margin-left: 25%; }
+        @keyframes drop {
+            0% { top: -50%; }
+            100% { top: 110%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="container">
+        <div class="hologram">
+            <h1>Rendez-vous Holographique</h1>
+            <div class="info">
+                <span class="label">Date :</span>
+                <span class="value" id="date">14 février 2024</span>
+            </div>
+            <div class="info">
+                <span class="label">Heure :</span>
+                <span class="value" id="time">19h30</span>
+            </div>
+            <div class="info">
+                <span class="label">Lieu :</span>
+                <span class="value" id="location">Le Bistro Futuriste</span>
+            </div>
+            <div class="info">
+                <span class="label">Activité :</span>
+                <span class="value" id="activity">Dîner holographique</span>
+            </div>
+            <h2>Souvenirs Holographiques</h2>
+            <div class="gallery">
+                <img src="/placeholder.svg?height=100&width=100" alt="Souvenir 1">
+                <img src="/placeholder.svg?height=100&width=100" alt="Souvenir 2">
+                <img src="/placeholder.svg?height=100&width=100" alt="Souvenir 3">
+                <img src="/placeholder.svg?height=100&width=100" alt="Souvenir 4">
+            </div>
+            <textarea id="personal-message" rows="4" placeholder="Écrivez un message holographique ici..."></textarea>
+        </div>
+    </div>
+    <script>
+        document.getElementById('personal-message').addEventListener('input', function(e) {
+            localStorage.setItem('personalHoloMessage', e.target.value);
+        });
+        document.getElementById('personal-message').value = localStorage.getItem('personalHoloMessage') || '';
+    </script>
+</body>
+</html>
