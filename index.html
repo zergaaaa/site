@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte à rebours futuriste avec Chat holographique</title>
+    <title>Compte à rebours futuriste holographique avancé</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -19,7 +18,6 @@
             font-family: 'Orbitron', sans-serif;
             overflow: hidden;
             perspective: 1000px;
-            position: relative;
         }
 
         .countdown-container {
@@ -87,70 +85,24 @@
         }
 
         @keyframes hologram-move {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 0 100px;
-            }
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
         }
 
-        /* Bouton de chat holographique */
-        .chat-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 102, 204, 0.3);
-            border: 2px solid #ff66cc;
-            color: #0ff;
-            font-size: 1.5rem;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 102, 204, 0.5);
-            text-shadow: 0 0 5px #ff66cc;
-            transition: transform 0.3s ease;
+        .message {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            z-index: 15;
         }
 
-        .chat-button:hover {
-            transform: scale(1.1);
-        }
-
-        /* Fenêtre de chat holographique */
-        .chat-window {
-            display: none;
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background: rgba(255, 102, 204, 0.1);
-            border: 2px solid #ff66cc;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 102, 204, 0.5);
-            z-index: 20;
-            padding: 10px;
-            overflow-y: auto;
-        }
-
-        .chat-messages {
-            height: 80%;
-            overflow-y: auto;
-            color: #0ff;
-        }
-
-        .chat-input {
-            width: 100%;
-            padding: 5px;
-            margin-top: 10px;
-            font-family: 'Orbitron', sans-serif;
-        }
     </style>
 </head>
-
 <body>
-    <h1 style="position: absolute; top: 50px; color: #fff;">Léa on se voit bientôt</h1>
     <div class="countdown-container">
         <div class="countdown">
             <div class="unit">
@@ -172,28 +124,22 @@
         </div>
     </div>
     <div class="hologram"></div>
-
-    <!-- Bouton de chat holographique -->
-    <div class="chat-button">Chat</div>
-
-    <!-- Fenêtre de chat -->
-    <div class="chat-window">
-        <div class="chat-messages">
-            <p>Aucun message pour le moment...</p>
-        </div>
-        <input type="text" class="chat-input" placeholder="Votre message...">
-    </div>
+    <div class="message">Léa, on se voit bientôt !</div>
 
     <script>
-        // Réglage du compte à rebours pour aujourd'hui 13h30
+        // Définir la date cible pour demain à 13h30
         const targetDate = new Date();
-        targetDate.setHours(13, 30, 0, 0);
+        targetDate.setDate(targetDate.getDate() + 1);
+        targetDate.setHours(13);
+        targetDate.setMinutes(30);
+        targetDate.setSeconds(0);
 
         function updateCountdown() {
             const now = new Date();
             let diff = targetDate - now;
 
             if (diff <= 0) {
+                // Réinitialiser le compte à rebours
                 diff = 0;
             }
 
@@ -217,32 +163,6 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Appel initial
-
-        // Gestion de l'affichage du chat
-        const chatButton = document.querySelector('.chat-button');
-        const chatWindow = document.querySelector('.chat-window');
-
-        chatButton.addEventListener('click', () => {
-            chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'block' : 'none';
-        });
-
-        // Sauvegarde des messages
-        const chatInput = document.querySelector('.chat-input');
-        const chatMessages = document.querySelector('.chat-messages');
-
-        chatInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                const message = chatInput.value;
-                if (message.trim() !== '') {
-                    const p = document.createElement('p');
-                    p.textContent = message;
-                    chatMessages.appendChild(p);
-                    chatInput.value = '';
-                    // Sauvegarder le message sur le site ou dans le stockage local ici
-                }
-            }
-        });
     </script>
 </body>
-
 </html>
