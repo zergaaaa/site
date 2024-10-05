@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong</title>
+    <title>Jeu de Pong</title>
     <style>
         body {
             margin: 0;
@@ -38,7 +38,7 @@
 </head>
 <body>
     <canvas id="myCanvas"></canvas>
-    <div class="score" id=""> 0</div>
+    <div class="score" id="score">Points: 0</div>
 
     <script>
         const canvas = document.getElementById("myCanvas");
@@ -49,7 +49,7 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            paddleY = canvas.height - paddleHeight - 55; // Réajuster la position de la barre
+            paddleY = canvas.height - paddleHeight - 45; // Réajuster la position de la barre
         }
 
         let ballRadius = 10;
