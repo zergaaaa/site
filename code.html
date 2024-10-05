@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code d'accès</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #282c34;
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        input[type="password"] {
+            font-size: 2rem;
+            padding: 10px;
+            margin-top: 20px;
+            background: #404;
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            background-color: #0ff;
+            border: none;
+            color: #282c34;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #00cc99;
+        }
+
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Entrez le code d'accès</h1>
+        <input type="password" id="code" maxlength="4" placeholder="****">
+        <button onclick="checkCode()">Accéder</button>
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        function checkCode() {
+            const code = document.getElementById('code').value;
+            const errorDiv = document.getElementById('error');
+
+            if (code === "1715") {
+                // Si le code est correct, rediriger vers la page du compte à rebours
+                window.location.href = "compte_a_rebours.html";
+            } else {
+                // Afficher un message d'erreur si le code est incorrect
+                errorDiv.textContent = "Code incorrect. Réessayez.";
+            }
+        }
+    </script>
+</body>
+</html>
