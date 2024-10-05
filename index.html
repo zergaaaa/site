@@ -141,7 +141,7 @@
 
             if (diff <= 0) {
                 // Réinitialiser le compte à rebours à 13h30 demain
-                targetDate.setDate(targetDate.getDate() + 1); // Remettre à demain
+                targetDate.setDate(targetDate.getDate() + 0); // Remettre à demain
                 targetDate.setHours(13, 30, 0, 0); // Réinitialiser à 13h30
                 diff = targetDate - now;
             }
