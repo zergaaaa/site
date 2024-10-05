@@ -18,16 +18,24 @@
 
         canvas {
             background-color: #000;
+            width: 100vw; /* 100% de la largeur de la fenêtre */
+            height: 100vh; /* 100% de la hauteur de la fenêtre */
             touch-action: none; /* Empêche le défilement lorsque l'on touche le canvas */
         }
     </style>
 </head>
 <body>
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <canvas id="myCanvas"></canvas>
 
     <script>
         const canvas = document.getElementById("myCanvas");
         const ctx = canvas.getContext("2d");
+
+        // Redimensionner le canvas pour qu'il corresponde à la fenêtre
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
 
         let ballRadius = 10;
         let x = canvas.width / 2;
@@ -42,6 +50,7 @@
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
         document.addEventListener("touchmove", touchMoveHandler, false);
+        window.addEventListener("resize", resizeCanvas, false); // Redimensionner le canvas quand la fenêtre change
 
         function mouseMoveHandler(e) {
             const relativeX = e.clientX - canvas.offsetLeft;
@@ -101,6 +110,8 @@
             requestAnimationFrame(draw);
         }
 
+        // Redimensionner le canvas au démarrage
+        resizeCanvas();
         draw();
     </script>
 </body>
