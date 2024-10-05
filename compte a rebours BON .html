@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte à rebours futuriste holographique avancé</title>
+    <title>Compte à rebours avec cœurs flottants</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column; /* Ajouté pour empiler les éléments */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -19,6 +18,14 @@
             font-family: 'Orbitron', sans-serif;
             overflow: hidden;
             perspective: 1000px;
+        }
+
+        h1 {
+            position: absolute;
+            top: 10px;
+            color: #fff;
+            font-size: 2.5rem;
+            text-align: center;
         }
 
         .countdown-container {
@@ -68,6 +75,32 @@
             margin-top: 10px;
         }
 
+        /* Ajout de l'animation des cœurs */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 85%, 15% 100%, 0% 35%);
+            animation: float 10s linear infinite;
+            opacity: 0.7;
+        }
+
+        /* Animation pour les cœurs qui flottent vers le haut */
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
         .hologram {
             position: fixed;
             top: 0;
@@ -95,18 +128,10 @@
             0% { background-position: 0 0; }
             100% { background-position: 0 100px; }
         }
-
-        /* Style pour le message */
-        .message {
-            font-size: 2rem;
-            color: #0ff;
-            margin-bottom: 100px; /* Espacement entre le message et le compte à rebours */
-            text-align: center; /* Centrer le texte */
-        }
     </style>
 </head>
 <body>
-    <div class="message">Léa on se voit bientôt</div> <!-- Ajouté ici -->
+    <h1>Léa, on se voit bientôt !</h1>
     <div class="countdown-container">
         <div class="countdown">
             <div class="unit">
@@ -129,21 +154,27 @@
     </div>
     <div class="hologram"></div>
 
+    <!-- Ajout des cœurs flottants -->
+    <div class="heart" style="left: 10%; animation-duration: 8s;"></div>
+    <div class="heart" style="left: 20%; animation-duration: 12s;"></div>
+    <div class="heart" style="left: 30%; animation-duration: 9s;"></div>
+    <div class="heart" style="left: 40%; animation-duration: 14s;"></div>
+    <div class="heart" style="left: 50%; animation-duration: 10s;"></div>
+    <div class="heart" style="left: 60%; animation-duration: 11s;"></div>
+    <div class="heart" style="left: 70%; animation-duration: 13s;"></div>
+    <div class="heart" style="left: 80%; animation-duration: 15s;"></div>
+    <div class="heart" style="left: 90%; animation-duration: 7s;"></div>
+
     <script>
-        // Définir la date cible pour demain à 13h30
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 0); // Demain
-        targetDate.setHours(13, 30, 0, 0); // 13h30
+        let targetDate = new Date();
+        targetDate.setHours(13, 30, 0, 0); // Date de fin : demain à 13h30
 
         function updateCountdown() {
             const now = new Date();
             let diff = targetDate - now;
 
             if (diff <= 0) {
-                // Réinitialiser le compte à rebours à 13h30 demain
-                targetDate.setDate(targetDate.getDate() + 1); // Remettre à demain
-                targetDate.setHours(13, 30, 0, 0); // Réinitialiser à 13h30
-                diff = targetDate - now;
+                diff = 0;
             }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
