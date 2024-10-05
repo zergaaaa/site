@@ -67,9 +67,12 @@
             if (code === "1715") {
                 // Si le code est correct, rediriger vers la page du compte à rebours
                 window.location.href = "compte_a_rebours.html";
+            } else if (code === "2412") {
+                // Si le code est 2412, rediriger vers la page noel.html
+                window.location.href = "noel.html";
             } else {
                 // Afficher un message d'erreur si le code est incorrect
-                errorDiv.textContent = "Ce code n'est relié à aucune cession. Réessayez.";
+                errorDiv.textContent = "Code incorrect. Réessayez.";
             }
         }
     </script>
