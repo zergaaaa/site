@@ -47,6 +47,9 @@
         let paddleWidth = 75;
         let paddleX = (canvas.width - paddleWidth) / 2;
 
+        // Position de la barre (un peu plus haut)
+        const paddleY = canvas.height - paddleHeight - 30; // Élévation de la barre
+
         // Écoute les événements de la souris et du toucher
         document.addEventListener("mousemove", mouseMoveHandler, false);
         document.addEventListener("touchmove", touchMoveHandler, false);
@@ -78,7 +81,7 @@
 
         function drawPaddle() {
             ctx.beginPath();
-            ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+            ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight); // Utilise paddleY pour le dessin
             ctx.fillStyle = "#00ff00";
             ctx.fill();
             ctx.closePath();
@@ -95,7 +98,7 @@
             }
             if (y + dy < ballRadius) {
                 dy = -dy;
-            } else if (y + dy > canvas.height - ballRadius) {
+            } else if (y + dy > paddleY - ballRadius) { // Vérifie la collision avec la barre
                 if (x > paddleX && x < paddleX + paddleWidth) {
                     dy = -dy; // Inverser la direction de la balle
                 } else {
