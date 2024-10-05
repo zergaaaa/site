@@ -51,20 +51,28 @@
     <div id="messages"></div>
     <input type="text" id="input" placeholder="Tapez votre message ici..." />
     <script>
-        // Configuration de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBVu4gL6P2Mn2IrbxfioqBJdjVpWpQ_2aQ",
-    authDomain: "site-chrono.firebaseapp.com",
-    databaseURL: "https://site-chrono-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "site-chrono",
-    storageBucket: "site-chrono.appspot.com",
-    messagingSenderId: "549294372815",
-    appId: "1:549294372815:web:fae5e1fab20c69b81384ba",
-        };
+        // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Initialisation de Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBVu4gL6P2Mn2IrbxfioqBJdjVpWpQ_2aQ",
+  authDomain: "site-chrono.firebaseapp.com",
+  databaseURL: "https://site-chrono-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "site-chrono",
+  storageBucket: "site-chrono.appspot.com",
+  messagingSenderId: "549294372815",
+  appId: "1:549294372815:web:fae5e1fab20c69b81384ba",
+  measurementId: "G-QSJ5XP24WW"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
         // Récupérer les messages et les afficher
         function loadMessages() {
