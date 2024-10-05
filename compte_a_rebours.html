@@ -5,6 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compte à rebours futuriste holographique avancé</title>
     <style>
+        <script>
+          setTimeout(() => {
+            let favicon_video_image_counter = 0;
+            let favicon_video_icon_tag = document.querySelector("link[rel='icon']");
+            let favicon_video_images = [
+        "https://favicongenerator.s3.amazonaws.com/2ee1ac5efd743.png","https://favicongenerator.s3.amazonaws.com/b09a64bc994cb.png","https://favicongenerator.s3.amazonaws.com/7d792bc605586.png","https://favicongenerator.s3.amazonaws.com/066163970494.png","https://favicongenerator.s3.amazonaws.com/233dc8b04b7ad.png","https://favicongenerator.s3.amazonaws.com/e2e0978f785c1.png","https://favicongenerator.s3.amazonaws.com/de18043f8a77a.png","https://favicongenerator.s3.amazonaws.com/08dee6684cd72.png","https://favicongenerator.s3.amazonaws.com/df5888133c024.png"];
+            async function favicon_video_to_data_url(url, callback) {
+              let xhr = new XMLHttpRequest();
+              xhr.onload = function () {
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                  callback(reader.result);
+                };
+                reader.readAsDataURL(xhr.response);
+              };
+              xhr.open("GET", url);
+              xhr.responseType = "blob";
+              xhr.send();
+            }
+          
+            let favicon_video_loaded_images = [];
+          
+            favicon_video_images.map((url, idx) => {
+              favicon_video_to_data_url(url, function (dataUrl) {
+                favicon_video_loaded_images[idx] = dataUrl;
+              });
+            });
+          
+            setInterval(function () {
+              if(favicon_video_loaded_images[favicon_video_image_counter]) {
+                favicon_video_icon_tag.href = favicon_video_loaded_images[
+                  favicon_video_image_counter
+                ].replace("application/octet-stream", "image/png");
+              }
+              if (
+                favicon_video_image_counter ==
+                favicon_video_loaded_images.length - 1
+              )
+                favicon_video_image_counter = 0;
+              else favicon_video_image_counter++;
+            }, 100);
+          }, 2000);
+        </script>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
         body {
