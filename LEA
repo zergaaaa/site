@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte à rebours avec cœurs flottants et chat</title>
+    <title>Compte à rebours avec cœurs flottants</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -128,75 +128,6 @@
             0% { background-position: 0 0; }
             100% { background-position: 0 100px; }
         }
-
-        /* Style pour le bouton de chat */
-        .chat-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff66cc;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Style pour la fenêtre de chat */
-        .chat-window {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background-color: #fff;
-            border: 2px solid #ff66cc;
-            border-radius: 10px;
-            display: none; /* Caché par défaut */
-            z-index: 100;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .chat-header {
-            background-color: #ff66cc;
-            color: white;
-            padding: 10px;
-            border-radius: 10px 10px 0 0;
-            text-align: center;
-        }
-
-        .chat-messages {
-            padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-
-        .chat-input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-top: 1px solid #ddd;
-        }
-
-        .chat-input input {
-            width: calc(100% - 50px);
-            padding: 10px;
-            border: none;
-        }
-
-        .chat-input button {
-            width: 50px;
-            background-color: #ff66cc;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-
     </style>
 </head>
 <body>
@@ -234,23 +165,38 @@
     <div class="heart" style="left: 80%; animation-duration: 15s;"></div>
     <div class="heart" style="left: 90%; animation-duration: 7s;"></div>
 
-    <!-- Bouton pour ouvrir le chat -->
-    <button class="chat-button" onclick="toggleChat()">Chat</button>
-
-    <!-- Fenêtre de chat -->
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">Discutons !</div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Écrire un message...">
-            <button onclick="sendMessage()">Envoyer</button>
-        </div>
-    </div>
-
     <script>
         let targetDate = new Date();
         targetDate.setHours(13, 30, 0, 0); // Date de fin : demain à 13h30
 
         function updateCountdown() {
             const now = new Date();
-            let diff
+            let diff = targetDate - now;
+
+            if (diff <= 0) {
+                diff = 0;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            updateUnit('days', days);
+            updateUnit('hours', hours);
+            updateUnit('minutes', minutes);
+            updateUnit('seconds', seconds);
+        }
+
+        function updateUnit(id, value) {
+            const element = document.getElementById(id);
+            const formattedValue = value.toString().padStart(2, '0');
+            element.textContent = formattedValue;
+            element.setAttribute('data-value', formattedValue);
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Appel initial
+    </script>
+</body>
+</html>
