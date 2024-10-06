@@ -26,12 +26,13 @@
             margin-bottom: 20px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-size: 2rem; /* Ajusté pour mobile */
         }
 
         .calendar {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-gap: 15px;
+            grid-template-columns: repeat(3, 1fr); /* Colonnes pour mobile par défaut */
+            grid-gap: 10px; /* Moins d'espacement */
             padding: 20px;
             width: 90%;
             max-width: 900px;
@@ -52,7 +53,7 @@
         }
 
         .day-number {
-            font-size: 2.5rem;
+            font-size: 2rem; /* Ajusté pour mobile */
             font-weight: bold;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -86,7 +87,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: #fff;
-            font-size: 2rem;
+            font-size: 2rem; /* Ajusté pour mobile */
             opacity: 0;
             transition: opacity 0.5s;
         }
@@ -95,15 +96,9 @@
             opacity: 1;
         }
 
-        @media (max-width: 600px) {
+        @media (min-width: 601px) {
             .calendar {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 400px) {
-            .calendar {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(6, 1fr); /* Colonnes pour écrans plus larges */
             }
         }
 
@@ -168,7 +163,7 @@
             <div class="day-number">1</div>
             <div class="door-content">🎁</div>
         </div>
-    <div class="day" id="day2" onclick="openDay(this, 2)">
+        <div class="day" id="day2" onclick="openDay(this, 2)">
             <div class="door"></div>
             <div class="day-number">2</div>
             <div class="door-content">🎁</div>
@@ -183,7 +178,7 @@
             <div class="day-number">4</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day5" onclick="openDay(this, 5)">
+        <div class="day" id="day5" onclick="openDay(this, 5)">
             <div class="door"></div>
             <div class="day-number">5</div>
             <div class="door-content">🎁</div>
@@ -193,7 +188,7 @@
             <div class="day-number">6</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day7" onclick="openDay(this, 7)">
+        <div class="day" id="day7" onclick="openDay(this, 7)">
             <div class="door"></div>
             <div class="day-number">7</div>
             <div class="door-content">🎁</div>
@@ -208,12 +203,12 @@
             <div class="day-number">9</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day10" onclick="openDay(this, 10)">
+        <div class="day" id="day10" onclick="openDay(this, 10)">
             <div class="door"></div>
             <div class="day-number">10</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day11" onclick="openDay(this, 11)">
+        <div class="day" id="day11" onclick="openDay(this, 11)">
             <div class="door"></div>
             <div class="day-number">11</div>
             <div class="door-content">🎁</div>
@@ -233,7 +228,7 @@
             <div class="day-number">14</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day15" onclick="openDay(this, 15)">
+        <div class="day" id="day15" onclick="openDay(this, 15)">
             <div class="door"></div>
             <div class="day-number">15</div>
             <div class="door-content">🎁</div>
@@ -273,72 +268,49 @@
             <div class="day-number">22</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day23" onclick="openDay(this, 23)">
+        <div class="day" id="day23" onclick="openDay(this, 23)">
             <div class="door"></div>
             <div class="day-number">23</div>
             <div class="door-content">🎁</div>
         </div>
-         <div class="day" id="day24" onclick="openDay(this, 24)">
+        <div class="day" id="day24" onclick="openDay(this, 24)">
             <div class="door"></div>
             <div class="day-number">24</div>
             <div class="door-content">🎁</div>
         </div>
     </div>
 
-    <div id="storyModal" class="modal">
+    <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="storyTitle">Histoire du jour</h2>
-            <p id="storyText"></p>
+            <p id="modal-text">Contenu du cadeau ici.</p>
         </div>
     </div>
 
     <script>
-        const stories = {
-            1: "Le Noël de Clara et Mamie Jeanne<br><br>C’était la veille de Noël, et Clara, une petite fille de sept ans, était très impatiente. Sa grand-mère, Mamie Jeanne, venait de lui offrir une belle clochette en argent. \"Cette clochette est spéciale\", lui avait dit Mamie Jeanne en souriant. \"Si tu fais un vœu la veille de Noël en la faisant tinter, il pourrait se réaliser !\"<br><br>Clara n’arrêtait pas de réfléchir à quel vœu elle allait faire. Elle aimait beaucoup Noël, surtout quand sa grand-mère venait lui rendre visite. Mamie Jeanne préparait toujours de délicieux biscuits à la cannelle, et ils passaient des heures à décorer le sapin ensemble.<br><br>Ce soir-là, après avoir décoré le sapin et bu du chocolat chaud avec sa famille, Clara se retrouva seule près de la cheminée avec la petite clochette en argent dans la main. Elle la regarda briller à la lumière du feu et pensa à son vœu. Finalement, elle la fit doucement tinter et murmura :<br>— Je voudrais passer un Noël magique avec Mamie Jeanne.<br><br>Le son doux de la clochette résonna dans la pièce. Clara ferma les yeux et sourit, son cœur rempli de joie. Elle était sûre que quelque chose de merveilleux allait arriver.<br><br>Le lendemain matin, Clara se réveilla avec un grand sourire. C’était enfin Noël ! Elle courut dans le salon et trouva Mamie Jeanne en train de préparer une montagne de biscuits, comme elle le faisait chaque année.<br><br>— Joyeux Noël, ma Clara ! dit Mamie Jeanne. Et devine quoi ? J’ai une surprise pour toi aujourd’hui !<br><br>Mamie Jeanne emmena Clara dehors. Dans le jardin, un magnifique bonhomme de neige les attendait, entouré de petites lanternes qui brillaient comme des étoiles.<br><br>— C’est notre Noël magique ! dit Mamie Jeanne. On va passer une journée pleine de surprises.<br><br>Clara éclata de rire et se mit à danser autour du bonhomme de neige. Elle savait que la magie de Noël venait du temps passé avec ceux qu’elle aimait, et cette journée resterait gravée dans son cœur pour toujours.",
-            // Ajoutez ici les autres histoires pour les autres jours
-        };
-
-        function openDay(element, dayNumber) {
-            if (!element.classList.contains('open')) {
-                element.classList.add('open');
-                showStory(dayNumber);
+        function openDay(dayElement, dayNumber) {
+            dayElement.classList.toggle('open');
+            if (dayElement.classList.contains('open')) {
+                document.getElementById('modal-text').innerText = "C'est le cadeau du jour " + dayNumber + " !";
+                document.getElementById('modal').style.display = 'flex';
             }
-        }
-
-        function showStory(dayNumber) {
-            const storyModal = document.getElementById('storyModal');
-            const storyText = document.getElementById('storyText');
-            const storyTitle = document.getElementById('storyTitle');
-
-            storyTitle.textContent = `Histoire du jour ${dayNumber}`;
-            storyText.innerHTML = stories[dayNumber]; // Utilisation de innerHTML pour les balises <br>
-
-            storyModal.style.display = "flex";
         }
 
         function closeModal() {
-            const modal = document.getElementById('storyModal');
-            modal.style.display = "none";
+            document.getElementById('modal').style.display = 'none';
+            const days = document.querySelectorAll('.day');
+            days.forEach(day => day.classList.remove('open'));
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('storyModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        setInterval(function() {
+        // Ajouter des flocons de neige
+        for (let i = 0; i < 30; i++) {
             const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.textContent = '❄';
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄️';
             snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
             document.body.appendChild(snowflake);
-            setTimeout(() => {
-                snowflake.remove();
-            }, 10000);
-        }, 500);
+        }
     </script>
 </body>
 </html>
