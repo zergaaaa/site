@@ -101,42 +101,96 @@
             }
         }
 
+        /* Styles du popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            color: #000;
+        }
+
+        .close {
+            color: #000;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h1>Calendrier de l'Avent</h1>
     <div class="calendar">
         <!-- Case pour chaque jour -->
-        <div class="day" onclick="openDay(this)">
+        <div class="day" id="day1" onclick="openDay(this)">
             <div class="door"></div>
             <div class="day-number">1</div>
-            <div class="door-content">🎁</div>
+            <div class="door-content" onclick="showStory()">🎁</div>
         </div>
         <div class="day" onclick="openDay(this)">
             <div class="door"></div>
             <div class="day-number">2</div>
             <div class="door-content">🎅</div>
         </div>
-        <!-- Ajoutez autant de cases que nécessaire -->
-        <!-- Exemple avec d'autres jours -->
-        <div class="day" onclick="openDay(this)">
-            <div class="door"></div>
-            <div class="day-number">3</div>
-            <div class="door-content">🍬</div>
+        <!-- Continuez pour les autres jours -->
+    </div>
+
+    <!-- Popup modale pour l'histoire -->
+    <div id="storyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Petite histoire de Noël</h2>
+            <p>Il était une fois, un petit renne nommé Rudy, qui avait un nez rouge brillant. Un jour, le Père Noël lui demanda de guider son traîneau à travers une tempête de neige...</p>
         </div>
-        <div class="day" onclick="openDay(this)">
-            <div class="door"></div>
-            <div class="day-number">4</div>
-            <div class="door-content">❄️</div>
-        </div>
-        <!-- Continuez jusqu'à 24 jours -->
-        <!-- Ajoutez autant de jours que vous le souhaitez -->
     </div>
 
     <script>
         // Fonction pour ouvrir une case
         function openDay(dayElement) {
             dayElement.classList.toggle('open');
+        }
+
+        // Fonction pour afficher le pop-up de l'histoire de Noël
+        function showStory() {
+            const modal = document.getElementById('storyModal');
+            modal.style.display = "flex"; // Affiche le modal
+        }
+
+        // Fonction pour fermer le pop-up
+        function closeModal() {
+            const modal = document.getElementById('storyModal');
+            modal.style.display = "none"; // Cache le modal
+        }
+
+        // Ferme le modal si on clique en dehors de celui-ci
+        window.onclick = function(event) {
+            const modal = document.getElementById('storyModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
     </script>
 </body>
