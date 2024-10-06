@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Rendez-vous</title>
     <style>
         body, html {
@@ -12,16 +12,16 @@
             background-color: #000;
             color: #0ff;
             height: 100%;
-            overflow: hidden;
+            overflow: auto;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            height: 100%;
+            min-height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
         }
         .hologram {
             background: rgba(0, 255, 255, 0.1);
@@ -30,6 +30,7 @@
             padding: 20px;
             box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
             animation: pulse 2s infinite alternate;
+            margin-bottom: 20px;
         }
         @keyframes pulse {
             from { box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff; }
@@ -84,7 +85,7 @@
             resize: vertical;
         }
         .lines {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -123,9 +124,9 @@
         }
         .return-button {
             display: block;
-            width: 200px;
-            margin: 20px auto 0;
-            padding: 10px;
+            width: 120px;
+            margin: 10px auto;
+            padding: 8px;
             background: rgba(0, 255, 255, 0.1);
             border: 2px solid #0ff;
             border-radius: 5px;
@@ -136,10 +137,14 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.3s ease;
+            font-size: 14px;
         }
         .return-button:hover {
             background: rgba(0, 255, 255, 0.3);
             box-shadow: 0 0 15px #0ff;
+        }
+        .button-container {
+            padding-bottom: env(safe-area-inset-bottom);
         }
     </style>
 </head>
@@ -176,6 +181,8 @@
                 <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/461490273_431232046247967_675265983645925061_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=Jp1FFEJN5uUQ7kNvgGXFfu1&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=A3jV42eZUKi8Q2fmK3K6YYr&oh=03_Q7cD1QFDD6MDrq75CvAmNQdWe7bOjbnoXt6Nm42VXkysceCy0A&oe=67293729" alt="Souvenir 4">
             </div>
             <textarea id="personal-message" rows="4" placeholder="Écrivez un message ici..."></textarea>
+        </div>
+        <div class="button-container">
             <a href="compte_a_rebours.html" class="return-button">Retour</a>
         </div>
     </div>
