@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendrier de l'Avent</title>
+    <title>Calendrier de l'Avent - Noël</title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
@@ -187,7 +187,101 @@
             <div class="day-number">4</div>
             <div class="door-content">🦌</div>
         </div>
-        <!-- ... Répétez pour les autres jours jusqu'à 24 -->
+        <div class="day" id="day5" onclick="openDay(this, 5)">
+            <div class="door"></div>
+            <div class="day-number">5</div>
+            <div class="door-content">🌟</div>
+        </div>
+        <div class="day" id="day6" onclick="openDay(this, 6)">
+            <div class="door"></div>
+            <div class="day-number">6</div>
+            <div class="door-content">🎄</div>
+        </div>
+        <div class="day" id="day7" onclick="openDay(this, 7)">
+            <div class="door"></div>
+            <div class="day-number">7</div>
+            <div class="door-content">🎁</div>
+        </div>
+        <div class="day" id="day8" onclick="openDay(this, 8)">
+            <div class="door"></div>
+            <div class="day-number">8</div>
+            <div class="door-content">🎅</div>
+        </div>
+        <div class="day" id="day9" onclick="openDay(this, 9)">
+            <div class="door"></div>
+            <div class="day-number">9</div>
+            <div class="door-content">⛄</div>
+        </div>
+        <div class="day" id="day10" onclick="openDay(this, 10)">
+            <div class="door"></div>
+            <div class="day-number">10</div>
+            <div class="door-content">🦌</div>
+        </div>
+        <div class="day" id="day11" onclick="openDay(this, 11)">
+            <div class="door"></div>
+            <div class="day-number">11</div>
+            <div class="door-content">🌟</div>
+        </div>
+        <div class="day" id="day12" onclick="openDay(this, 12)">
+            <div class="door"></div>
+            <div class="day-number">12</div>
+            <div class="door-content">🎄</div>
+        </div>
+        <div class="day" id="day13" onclick="openDay(this, 13)">
+            <div class="door"></div>
+            <div class="day-number">13</div>
+            <div class="door-content">🎁</div>
+        </div>
+        <div class="day" id="day14" onclick="openDay(this, 14)">
+            <div class="door"></div>
+            <div class="day-number">14</div>
+            <div class="door-content">🎅</div>
+        </div>
+        <div class="day" id="day15" onclick="openDay(this, 15)">
+            <div class="door"></div>
+            <div class="day-number">15</div>
+            <div class="door-content">⛄</div>
+        </div>
+        <div class="day" id="day16" onclick="openDay(this, 16)">
+            <div class="door"></div>
+            <div class="day-number">16</div>
+            <div class="door-content">🦌</div>
+        </div>
+        <div class="day" id="day17" onclick="openDay(this, 17)">
+            <div class="door"></div>
+            <div class="day-number">17</div>
+            <div class="door-content">🌟</div>
+        </div>
+        <div class="day" id="day18" onclick="openDay(this, 18)">
+            <div class="door"></div>
+            <div class="day-number">18</div>
+            <div class="door-content">🎄</div>
+        </div>
+        <div class="day" id="day19" onclick="openDay(this, 19)">
+            <div class="door"></div>
+            <div class="day-number">19</div>
+            <div class="door-content">🎁</div>
+        </div>
+        <div class="day" id="day20" onclick="openDay(this, 20)">
+            <div class="door"></div>
+            <div class="day-number">20</div>
+            <div class="door-content">🎅</div>
+        </div>
+        <div class="day" id="day21" onclick="openDay(this, 21)">
+            <div class="door"></div>
+            <div class="day-number">21</div>
+            <div class="door-content">⛄</div>
+        </div>
+        <div class="day" id="day22" onclick="openDay(this, 22)">
+            <div class="door"></div>
+            <div class="day-number">22</div>
+            <div class="door-content">🦌</div>
+        </div>
+        <div class="day" id="day23" onclick="openDay(this, 23)">
+            <div class="door"></div>
+            <div class="day-number">23</div>
+            <div class="door-content">🌟</div>
+        </div>
         <div class="day" id="day24" onclick="openDay(this, 24)">
             <div class="door"></div>
             <div class="day-number">24</div>
@@ -195,45 +289,53 @@
         </div>
     </div>
 
-    <!-- Popup modale pour les histoires -->
+    <!-- Modal pour les histoires -->
     <div id="storyModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="storyTitle">Petite histoire de Noël</h2>
-            <p id="storyText">Voici une petite histoire pour ce jour de décembre.</p>
+            <h2 id="storyTitle">Histoire du jour</h2>
+            <p id="storyText"></p>
         </div>
     </div>
-
-    <!-- Flocons de neige animés -->
-    <div class="snowflake" style="left: 10%; animation-duration: 8s;">❄️</div>
-    <div class="snowflake" style="left: 20%; animation-duration: 10s;">❄️</div>
-    <div class="snowflake" style="left: 30%; animation-duration: 12s;">❄️</div>
-    <div class="snowflake" style="left: 50%; animation-duration: 9s;">❄️</div>
-    <div class="snowflake" style="left: 70%; animation-duration: 11s;">❄️</div>
-    <div class="snowflake" style="left: 80%; animation-duration: 7s;">❄️</div>
-    <div class="snowflake" style="left: 90%; animation-duration: 13s;">❄️</div>
 
     <script>
         // Histoires pour chaque jour
         const stories = {
-            1: "Il était une fois un petit lutin nommé Lumi qui aidait le Père Noël à préparer les cadeaux...",
-            2: "Dans un petit village enneigé, les enfants attendaient avec impatience l'arrivée du Père Noël...",
-            3: "Une nuit, un flocon de neige magique tomba sur la tête d'un bonhomme de neige et lui donna vie...",
-            4: "Rudy, le renne au nez rouge, était triste car il n'était jamais choisi pour guider le traîneau...",
-            // Ajoutez des histoires pour chaque jour jusqu'au jour 24
-            24: "C'était enfin la veille de Noël et tout le monde était réuni autour du sapin, prêt à célébrer..."
+            1: "Il était une fois un petit renne nommé Rudy...",
+            2: "Un bonhomme de neige magique dans le village...",
+            3: "Une étoile filante qui exauçait les vœux de Noël...",
+            4: "Le Père Noël préparait son traîneau pour la grande nuit...",
+            5: "Dans un petit village enneigé, une surprise attendait chaque enfant...",
+            6: "Le sapin de Noël était décoré avec des lumières étincelantes...",
+            7: "Une boîte mystérieuse apparut sous le sapin...",
+            8: "Les lutins du Père Noël travaillaient dur dans l'atelier...",
+            9: "Une histoire d’amitié entre un renne et un lapin de Noël...",
+            10: "Dans la forêt, les animaux préparaient aussi Noël...",
+            11: "Une fée de Noël fit apparaître une pluie d'étoiles...",
+            12: "Un biscuit de Noël prit vie et partit à l'aventure...",
+            13: "Le Père Noël raconta l'histoire de la toute première neige...",
+            14: "Un enfant découvrit le secret des lutins de Noël...",
+            15: "La Lune brilla plus fort que jamais pendant la nuit de Noël...",
+            16: "Les rennes volants étaient impatients de commencer leur tournée...",
+            17: "Une étoile polaire montra le chemin au Père Noël...",
+            18: "Un petit chaton découvrit la magie de Noël...",
+            19: "Les cadeaux magiques brillaient sous le sapin...",
+            20: "Le vent de Noël soufflait une douce mélodie à travers la vallée...",
+            21: "Les enfants entonnèrent un chant de Noël autour du feu...",
+            22: "Une grande fête de Noël se préparait au pôle Nord...",
+            23: "Une étoile brilla dans le ciel pour annoncer la veille de Noël...",
+            24: "Enfin, c'était Noël, la plus belle nuit de l'année..."
         };
 
-        // Fonction pour ouvrir une case du calendrier
-        function openDay(dayElement, dayNumber) {
-            dayElement.classList.toggle('open');
-            // Affiche l'histoire du jour en cliquant sur la case ouverte
-            if (dayElement.classList.contains('open')) {
-                setTimeout(() => showStory(dayNumber), 1000); // Affiche après l'animation d'ouverture
+        // Fonction pour ouvrir une case
+        function openDay(element, dayNumber) {
+            if (!element.classList.contains('open')) {
+                element.classList.add('open');
+                showStory(dayNumber);
             }
         }
 
-        // Fonction pour afficher l'histoire dans le popup
+        // Fonction pour afficher l'histoire
         function showStory(dayNumber) {
             const storyModal = document.getElementById('storyModal');
             const storyText = document.getElementById('storyText');
@@ -258,6 +360,19 @@
                 modal.style.display = "none";
             }
         }
+
+        // Génération de flocons de neige
+        setInterval(function() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            snowflake.textContent = '❄';
+            document.body.appendChild(snowflake);
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }, 300);
     </script>
 </body>
 </html>
