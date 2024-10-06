@@ -166,26 +166,41 @@
     <h1>Calendrier de l'Avent de Noël</h1>
 
     <div class="calendar">
-        <!-- Case pour chaque jour -->
-        <div class="day" id="day1" onclick="openDay(this)">
+        <!-- Création des 24 jours -->
+        <div class="day" id="day1" onclick="openDay(this, 1)">
             <div class="door"></div>
             <div class="day-number">1</div>
-            <div class="door-content" onclick="showStory()">🎁</div>
+            <div class="door-content">🎁</div>
         </div>
-        <div class="day" onclick="openDay(this)">
+        <div class="day" id="day2" onclick="openDay(this, 2)">
             <div class="door"></div>
             <div class="day-number">2</div>
             <div class="door-content">🎅</div>
         </div>
-        <!-- Continuez pour les autres jours -->
+        <div class="day" id="day3" onclick="openDay(this, 3)">
+            <div class="door"></div>
+            <div class="day-number">3</div>
+            <div class="door-content">⛄</div>
+        </div>
+        <div class="day" id="day4" onclick="openDay(this, 4)">
+            <div class="door"></div>
+            <div class="day-number">4</div>
+            <div class="door-content">🦌</div>
+        </div>
+        <!-- ... Répétez pour les autres jours jusqu'à 24 -->
+        <div class="day" id="day24" onclick="openDay(this, 24)">
+            <div class="door"></div>
+            <div class="day-number">24</div>
+            <div class="door-content">🎄</div>
+        </div>
     </div>
 
-    <!-- Popup modale pour l'histoire -->
+    <!-- Popup modale pour les histoires -->
     <div id="storyModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Petite histoire de Noël</h2>
-            <p>Il était une fois, un petit renne nommé Rudy, qui avait un nez rouge brillant. Un jour, le Père Noël lui demanda de guider son traîneau à travers une tempête de neige...</p>
+            <h2 id="storyTitle">Petite histoire de Noël</h2>
+            <p id="storyText">Voici une petite histoire pour ce jour de décembre.</p>
         </div>
     </div>
 
@@ -199,24 +214,44 @@
     <div class="snowflake" style="left: 90%; animation-duration: 13s;">❄️</div>
 
     <script>
-        // Fonction pour ouvrir une case
-        function openDay(dayElement) {
+        // Histoires pour chaque jour
+        const stories = {
+            1: "Il était une fois un petit lutin nommé Lumi qui aidait le Père Noël à préparer les cadeaux...",
+            2: "Dans un petit village enneigé, les enfants attendaient avec impatience l'arrivée du Père Noël...",
+            3: "Une nuit, un flocon de neige magique tomba sur la tête d'un bonhomme de neige et lui donna vie...",
+            4: "Rudy, le renne au nez rouge, était triste car il n'était jamais choisi pour guider le traîneau...",
+            // Ajoutez des histoires pour chaque jour jusqu'au jour 24
+            24: "C'était enfin la veille de Noël et tout le monde était réuni autour du sapin, prêt à célébrer..."
+        };
+
+        // Fonction pour ouvrir une case du calendrier
+        function openDay(dayElement, dayNumber) {
             dayElement.classList.toggle('open');
+            // Affiche l'histoire du jour en cliquant sur la case ouverte
+            if (dayElement.classList.contains('open')) {
+                setTimeout(() => showStory(dayNumber), 1000); // Affiche après l'animation d'ouverture
+            }
         }
 
-        // Fonction pour afficher le pop-up de l'histoire de Noël
-        function showStory() {
-            const modal = document.getElementById('storyModal');
-            modal.style.display = "flex"; // Affiche le modal
+        // Fonction pour afficher l'histoire dans le popup
+        function showStory(dayNumber) {
+            const storyModal = document.getElementById('storyModal');
+            const storyText = document.getElementById('storyText');
+            const storyTitle = document.getElementById('storyTitle');
+
+            storyTitle.textContent = `Histoire du jour ${dayNumber}`;
+            storyText.textContent = stories[dayNumber];
+
+            storyModal.style.display = "flex"; // Affiche le popup
         }
 
-        // Fonction pour fermer le pop-up
+        // Fonction pour fermer le popup
         function closeModal() {
             const modal = document.getElementById('storyModal');
             modal.style.display = "none"; // Cache le modal
         }
 
-        // Ferme le modal si on clique en dehors de celui-ci
+        // Ferme le popup si on clique en dehors de celui-ci
         window.onclick = function(event) {
             const modal = document.getElementById('storyModal');
             if (event.target == modal) {
