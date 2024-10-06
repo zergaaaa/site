@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendrier de l'Avent - Noël</title>
-    
+
     <style>
-        /* Ajoute tes styles CSS ici */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
         body {
             margin: 0;
             padding: 0;
@@ -20,24 +21,141 @@
             overflow: hidden;
         }
 
-        /* Ajoute le style du bouton de défilement ici */
-        #scrollDown {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff4747;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            transition: background-color 0.3s;
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
-        #scrollDown:hover {
-            background-color: #ff6666;
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .day {
+            position: relative;
+            padding-top: 100%;
+            background-color: #ff4747;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.5s, background-color 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .day-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .day.open .door {
+            transform: rotateY(180deg);
+        }
+
+        .door {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #2980b9;
+            background: linear-gradient(135deg, #fff 25%, transparent 25%, transparent 50%, #fff 50%, #fff 75%, transparent 75%, transparent);
+            background-size: 20px 20px;
+            border-radius: 10px;
+            transform-origin: left;
+            transition: transform 1s;
+        }
+
+        .door-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .day.open .door-content {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .calendar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .calendar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            color: #000;
+        }
+
+        .close {
+            color: #000;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 2rem;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { top: -10px; opacity: 1; }
+            100% { top: 110vh; opacity: 0; }
         }
     </style>
 </head>
@@ -175,13 +293,9 @@
         </div>
     </div>
 
-    <!-- Bouton pour faire défiler la page -->
-    <button id="scrollDown" onclick="scrollToNext()">⬇️</button>
-
     <script>
-        // Ajoute tes scripts JavaScript ici
         const stories = {
-            1: "Le Noël de Clara et Mamie Jeanne<br><br>C’était la veille de Noël...",
+            1: "Le Noël de Clara et Mamie Jeanne<br><br>C’était la veille de Noël, et Clara, une petite fille de sept ans, était très impatiente. Sa grand-mère, Mamie Jeanne, venait de lui offrir une belle clochette en argent. \"Cette clochette est spéciale\", lui avait dit Mamie Jeanne en souriant. \"Si tu fais un vœu la veille de Noël en la faisant tinter, il pourrait se réaliser !\"<br><br>Clara n’arrêtait pas de réfléchir à quel vœu elle allait faire. Elle aimait beaucoup Noël, surtout quand sa grand-mère venait lui rendre visite. Mamie Jeanne préparait toujours de délicieux biscuits à la cannelle, et ils passaient des heures à décorer le sapin ensemble.<br><br>Ce soir-là, après avoir décoré le sapin et bu du chocolat chaud avec sa famille, Clara se retrouva seule près de la cheminée avec la petite clochette en argent dans la main. Elle la regarda briller à la lumière du feu et pensa à son vœu. Finalement, elle la fit doucement tinter et murmura :<br>— Je voudrais passer un Noël magique avec Mamie Jeanne.<br><br>Le son doux de la clochette résonna dans la pièce. Clara ferma les yeux et sourit, son cœur rempli de joie. Elle était sûre que quelque chose de merveilleux allait arriver.<br><br>Le lendemain matin, Clara se réveilla avec un grand sourire. C’était enfin Noël ! Elle courut dans le salon et trouva Mamie Jeanne en train de préparer une montagne de biscuits, comme elle le faisait chaque année.<br><br>— Joyeux Noël, ma Clara ! dit Mamie Jeanne. Et devine quoi ? J’ai une surprise pour toi aujourd’hui !<br><br>Mamie Jeanne emmena Clara dehors. Dans le jardin, un magnifique bonhomme de neige les attendait, entouré de petites lanternes qui brillaient comme des étoiles.<br><br>— C’est notre Noël magique ! dit Mamie Jeanne. On va passer une journée pleine de surprises.<br><br>Clara éclata de rire et se mit à danser autour du bonhomme de neige. Elle savait que la magie de Noël venait du temps passé avec ceux qu’elle aimait, et cette journée resterait gravée dans son cœur pour toujours.",
             // Ajoutez ici les autres histoires pour les autres jours
         };
 
@@ -208,19 +322,23 @@
             modal.style.display = "none";
         }
 
-        function scrollToNext() {
-            window.scrollBy({
-                top: window.innerHeight, // Défile vers le bas d'une hauteur d'écran
-                behavior: 'smooth' // Défilement fluide
-            });
-        }
-
         window.onclick = function(event) {
             const modal = document.getElementById('storyModal');
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
+
+        setInterval(function() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(snowflake);
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000);
+        }, 500);
     </script>
 </body>
 </html>
