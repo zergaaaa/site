@@ -98,14 +98,14 @@
         // Forcer l'accès au lien et empêcher le retour en arrière
         document.getElementById('enterLink').addEventListener('click', function(event) {
             event.preventDefault(); // Empêche l'action par défaut du lien
-            window.location.href = 'https://www.example.com'; // Redirection vers le lien voulu
+            window.location.replace('https://www.example.com'); // Redirection forcée (remplace example.com)
         });
 
         // Empêcher le retour en arrière
-        window.history.pushState(null, "", window.location.href);
-        window.onpopstate = function() {
-            window.history.pushState(null, "", window.location.href);
-        };
+        window.history.pushState(null, "", window.location.href); 
+        window.addEventListener('popstate', function() {
+            window.history.pushState(null, "", window.location.href); // Bloque le retour
+        });
     </script>
 </body>
 </html>
