@@ -59,6 +59,7 @@
             text-decoration: none;
             color: #ff0000;
             transition: all 0.3s ease-in-out;
+            cursor: pointer;
         }
 
         .creepy-link:hover {
@@ -89,8 +90,22 @@
 
         <div class="message">
             <p>Click here if you dare...</p>
-            <a href="#" class="creepy-link">Enter the darkness</a>
+            <a href="#" class="creepy-link" id="enterLink">Enter the darkness</a>
         </div>
     </div>
+
+    <script>
+        // Forcer l'accès au lien et empêcher le retour en arrière
+        document.getElementById('enterLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche l'action par défaut du lien
+            window.location.href = 'https://www.example.com'; // Redirection vers le lien voulu
+        });
+
+        // Empêcher le retour en arrière
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function() {
+            window.history.pushState(null, "", window.location.href);
+        };
+    </script>
 </body>
 </html>
