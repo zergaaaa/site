@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonhomme qui fait un doigt d'honneur</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #btn {
+            padding: 20px;
+            background-color: red;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        #emoji {
+            font-size: 100px;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="btn">Cliquez ici</button>
+    <div id="emoji">🖕</div>
+
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            document.getElementById('emoji').style.display = 'block';
+        });
+    </script>
+    
+</body>
+</html>
