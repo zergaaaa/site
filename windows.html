@@ -18,6 +18,7 @@
             background-image: url('https://www.monwindows.com/images/news/images/201506/minsize/fond-ecran-windows-10-making-of-650x391_qkwlbw.jpg');
             background-size: cover;
             background-position: center;
+            overflow: hidden;
         }
 
         .icons {
@@ -96,20 +97,18 @@
             color: white;
         }
 
-        /* Fenêtres modales */
+        /* Fenêtres modales améliorées */
         .window {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: absolute;
             width: 400px;
             height: 300px;
             background-color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #0078d7;
+            border-radius: 5px;
             z-index: 10;
             display: none;
             flex-direction: column;
-            border-radius: 5px;
         }
 
         .window-header {
@@ -119,6 +118,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: move;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
@@ -152,7 +152,7 @@
                 <div class="icon-bg" onclick="openWindow('window2')">
                     <img src="https://telegram-stickers.github.io/public/stickers/windows-10/33.png" alt="Documents">
                 </div>
-                <span>Télechargement</span>
+                <span>Téléchargements</span>
             </div>
             <div class="icon">
                 <div class="icon-bg" onclick="openWindow('window3')">
@@ -177,7 +177,7 @@
 
         <!-- Fenêtres virtuelles -->
         <div id="window1" class="window">
-            <div class="window-header">
+            <div class="window-header" onmousedown="startDrag(event, 'window1')">
                 <span>Ce PC</span>
                 <span class="close-btn" onclick="closeWindow('window1')">X</span>
             </div>
@@ -187,7 +187,7 @@
         </div>
 
         <div id="window2" class="window">
-            <div class="window-header">
+            <div class="window-header" onmousedown="startDrag(event, 'window2')">
                 <span>Téléchargements</span>
                 <span class="close-btn" onclick="closeWindow('window2')">X</span>
             </div>
@@ -197,7 +197,7 @@
         </div>
 
         <div id="window3" class="window">
-            <div class="window-header">
+            <div class="window-header" onmousedown="startDrag(event, 'window3')">
                 <span>Fichier texte</span>
                 <span class="close-btn" onclick="closeWindow('window3')">X</span>
             </div>
@@ -207,7 +207,7 @@
         </div>
 
         <div id="window4" class="window">
-            <div class="window-header">
+            <div class="window-header" onmousedown="startDrag(event, 'window4')">
                 <span>Corbeille</span>
                 <span class="close-btn" onclick="closeWindow('window4')">X</span>
             </div>
@@ -219,11 +219,38 @@
 
     <script>
         function openWindow(id) {
-            document.getElementById(id).classList.add('open');
+            const window = document.getElementById(id);
+            window.classList.add('open');
+            window.style.left = '50px';  // Position de départ
+            window.style.top = '50px';   // Position de départ
         }
 
         function closeWindow(id) {
             document.getElementById(id).classList.remove('open');
+        }
+
+        let dragElement = null;
+        let offsetX = 0, offsetY = 0;
+
+        function startDrag(event, id) {
+            dragElement = document.getElementById(id);
+            offsetX = event.clientX - dragElement.getBoundingClientRect().left;
+            offsetY = event.clientY - dragElement.getBoundingClientRect().top;
+            document.onmousemove = dragWindow;
+            document.onmouseup = stopDrag;
+        }
+
+        function dragWindow(event) {
+            if (dragElement) {
+                dragElement.style.left = (event.clientX - offsetX) + 'px';
+                dragElement.style.top = (event.clientY - offsetY) + 'px';
+            }
+        }
+
+        function stopDrag() {
+            dragElement = null;
+            document.onmousemove = null;
+            document.onmouseup = null;
         }
     </script>
 </body>
