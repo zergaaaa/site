@@ -15,7 +15,7 @@
         .desktop {
             height: 100vh;
             position: relative;
-            background-image: url('https://get.wallhere.com/photo/Windows-10-Microsoft-operating-system-1521547.jpg');
+            background-image: url('https://www.monwindows.com/images/news/images/201506/minsize/fond-ecran-windows-10-making-of-650x391_qkwlbw.jpg');
             background-size: cover;
             background-position: center;
             overflow: hidden;
@@ -97,7 +97,7 @@
             color: white;
         }
 
-        /* Fenêtres modales améliorées */
+        /* Fenêtres modales */
         .window {
             position: absolute;
             width: 400px;
@@ -137,6 +137,26 @@
         .window.open {
             display: flex;
         }
+
+        /* Styles du terminal */
+        .terminal-body {
+            background-color: black;
+            color: lime;
+            font-family: monospace;
+            padding: 10px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .terminal-input {
+            width: 100%;
+            background-color: black;
+            border: none;
+            color: lime;
+            font-family: monospace;
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
@@ -165,6 +185,13 @@
                     <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
                 </div>
                 <span>Corbeille</span>
+            </div>
+            <!-- Ajout de l'icône "Hacking" -->
+            <div class="icon">
+                <div class="icon-bg" onclick="openWindow('terminalWindow')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3534/3534065.png" alt="Hacking">
+                </div>
+                <span>Hacking</span>
             </div>
         </div>
 
@@ -215,43 +242,12 @@
                 Contenu de la Corbeille.
             </div>
         </div>
-    </div>
 
-    <script>
-        function openWindow(id) {
-            const window = document.getElementById(id);
-            window.classList.add('open');
-            window.style.left = '50px';  // Position de départ
-            window.style.top = '50px';   // Position de départ
-        }
-
-        function closeWindow(id) {
-            document.getElementById(id).classList.remove('open');
-        }
-
-        let dragElement = null;
-        let offsetX = 0, offsetY = 0;
-
-        function startDrag(event, id) {
-            dragElement = document.getElementById(id);
-            offsetX = event.clientX - dragElement.getBoundingClientRect().left;
-            offsetY = event.clientY - dragElement.getBoundingClientRect().top;
-            document.onmousemove = dragWindow;
-            document.onmouseup = stopDrag;
-        }
-
-        function dragWindow(event) {
-            if (dragElement) {
-                dragElement.style.left = (event.clientX - offsetX) + 'px';
-                dragElement.style.top = (event.clientY - offsetY) + 'px';
-            }
-        }
-
-        function stopDrag() {
-            dragElement = null;
-            document.onmousemove = null;
-            document.onmouseup = null;
-        }
-    </script>
-</body>
-</html>
+        <!-- Fenêtre du terminal -->
+        <div id="terminalWindow" class="window">
+            <div class="window-header" onmousedown="startDrag(event, 'terminalWindow')">
+                <span>Terminal</span>
+                <span class="close-btn" onclick="closeWindow('terminalWindow')">X</span>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <p>Bienvenue dans le terminal fact
