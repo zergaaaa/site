@@ -104,59 +104,49 @@
             color: #333;
         }
 
-        /* Fenêtre Hacking */
-        .hacking-window {
+        /* Fenêtres modales */
+        .window {
             position: absolute;
-            width: 800px;
-            height: 600px;
-            background-color: black;
+            width: 400px;
+            height: 300px;
+            background-color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             border: 1px solid #0078d7;
-            z-index: 5; /* Moins prioritaire que les icônes */
-            top: 100px;
-            left: 100px;
-            display: none; /* Masqué par défaut */
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            z-index: 5; /* Fenêtres plus en bas que les icônes */
+            display: none;
+            flex-direction: column;
+            resize: both;
+            overflow: hidden;
+            min-width: 300px;
+            min-height: 200px;
         }
 
-        .hacking-header {
-            background-color: #333;
+        .window-header {
+            background-color: #0078d7;
+            color: white;
             padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: move;
-            color: white;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
 
-        .hacking-body {
+        .window-header .close-btn {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .window-body {
             padding: 20px;
-            height: 100%;
+            flex-grow: 1;
             overflow: auto;
         }
 
-        .input-field {
-            color: #00ff00;
-            background-color: black;
-            border: none;
-            outline: none;
-            width: 100%;
-            font-family: 'Courier New', monospace;
-        }
-
-        .input-field:focus {
-            outline: none;
-        }
-
-        .command-result {
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Barre des tâches */
+        /* Styles supplémentaires */
         .taskbar {
             position: absolute;
             bottom: 0;
@@ -200,11 +190,11 @@
                 </div>
                 <span>Google</span>
             </div>
-            <div class="icon" onclick="openWindow('hackingWindow')">
+            <div class="icon" onclick="openWindow('window1')">
                 <div class="icon-bg">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Terminal_icon_2012.png" alt="Hacking">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Folder-Icon.png" alt="Documents">
                 </div>
-                <span>Hacking</span>
+                <span>Téléchargements</span>
             </div>
         </div>
 
@@ -229,71 +219,50 @@
         </div>
     </div>
 
-    <!-- Fenêtre Hacking -->
-    <div id="hackingWindow" class="hacking-window">
-        <div class="hacking-header" onmousedown="startDrag(event, 'hackingWindow')">
-            <span>Terminal</span>
-            <span class="close-btn" onclick="closeWindow('hackingWindow')">X</span>
-        </div>
-        <div class="hacking-body">
-            <div class="command-result" id="terminal-output"></div>
-            <input type="text" class="input-field" id="command-input" placeholder="Entrez une commande..." onkeydown="executeCommand(event)">
-        </div>
-    </div>
-
     <script>
         let chromeWindowOpen = false;
-        let hackingWindowOpen = false;
 
         // Fonction pour ouvrir une fenêtre
         function openWindow(windowId) {
-            if (windowId === 'chromeWindow') {
-                document.getElementById(windowId).style.display = 'block';
-                chromeWindowOpen = true;
-            } else if (windowId === 'hackingWindow') {
-                document.getElementById(windowId).style.display = 'block';
-                hackingWindowOpen = true;
-            }
+            document.getElementById(windowId).style.display = 'block';
+            chromeWindowOpen = true;
         }
 
         // Fonction pour fermer une fenêtre
         function closeWindow(windowId) {
             document.getElementById(windowId).style.display = 'none';
-            if (windowId === 'chromeWindow') {
-                chromeWindowOpen = false;
-            } else if (windowId === 'hackingWindow') {
-                hackingWindowOpen = false;
-            }
+            chromeWindowOpen = false;
         }
 
-        // Gestion du drag de fenêtre
-        function startDrag(e, windowId) {
-            e.preventDefault();
-            let windowElement = document.getElementById(windowId);
-            let offsetX = e.clientX - windowElement.getBoundingClientRect().left;
-            let offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+        // Fonction de drag and drop pour déplacer les fenêtres
+        function startDrag(event, windowId) {
+            const windowElement = document.getElementById(windowId);
+            let dragOffsetX = event.clientX - windowElement.offsetLeft;
+            let dragOffsetY = event.clientY - windowElement.offsetTop;
+            let isDragging = true;
 
-            function dragMove(e) {
-                windowElement.style.left = (e.clientX - offsetX) + 'px';
-                windowElement.style.top = (e.clientY - offsetY) + 'px';
-            }
+            document.onmousemove = function(event) {
+                if (isDragging) {
+                    windowElement.style.left = (event.clientX - dragOffsetX) + 'px';
+                    windowElement.style.top = (event.clientY - dragOffsetY) + 'px';
+                }
+            };
 
-            function stopDrag() {
-                document.removeEventListener('mousemove', dragMove);
-                document.removeEventListener('mouseup', stopDrag);
-            }
-
-            document.addEventListener('mousemove', dragMove);
-            document.addEventListener('mouseup', stopDrag);
+            document.onmouseup = function() {
+                isDragging = false;
+                document.onmousemove = null;
+                document.onmouseup = null;
+            };
         }
 
-        // Recherche Google
-        function handleSearch(e) {
-            if (e.key === 'Enter') {
-                let query = document.getElementById('search-bar').value;
-                let searchResults = document.getElementById('search-results');
-                searchResults.innerHTML = ''; // Clear previous results
+        // Fonction de recherche dans la fenêtre Chrome
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('search-bar').value;
+                const searchResults = document.getElementById('search-results');
+                searchResults.innerHTML = ''; // Réinitialiser les résultats
 
+                // Simulation de résultats de recherche
                 if (query.toLowerCase().includes('hack')) {
                     searchResults.innerHTML += '<p>Résultats trouvés pour "hack" :</p>';
                     searchResults.innerHTML += '<ul><li><a href="#">hack-serveur-12345.com</a></li><li><a href="#">fichier-sensible.zip</a></li><li><a href="#">reconnaissance-ip-192.168.1.1</a></li></ul>';
@@ -305,37 +274,6 @@
                 }
             }
         }
-
-        // Commande de hacking dans le terminal
-        function executeCommand(e) {
-            if (e.key === 'Enter') {
-                let command = document.getElementById('command-input').value;
-                let output = document.getElementById('terminal-output');
-                output.innerHTML += `<p>> ${command}</p>`; // Ajoute la commande entrée
-
-                if (command.includes('hack')) {
-                    output.innerHTML += '<p>Commande exécutée : Scan du réseau...</p>';
-                    output.innerHTML += '<p>Scan terminé. Résultats trouvés.</p>';
-                } else if (command.includes('info')) {
-                    output.innerHTML += '<p>Infos système récupérées.</p>';
-                } else {
-                    output.innerHTML += '<p>Commande non reconnue.</p>';
-                }
-
-                document.getElementById('command-input').value = ''; // Réinitialiser le champ de commande
-            }
-        }
-
-        // Horloge
-        function updateClock() {
-            let now = new Date();
-            let hours = now.getHours().toString().padStart(2, '0');
-            let minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}`;
-        }
-
-        setInterval(updateClock, 1000);
-        updateClock();
     </script>
 </body>
 </html>
