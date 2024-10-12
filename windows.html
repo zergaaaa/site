@@ -146,6 +146,8 @@
             padding: 10px;
             flex-grow: 1;
             overflow-y: auto;
+            border-bottom: 1px solid lime;
+            max-height: 200px;
         }
 
         .terminal-input {
@@ -155,6 +157,8 @@
             color: lime;
             font-family: monospace;
             outline: none;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
     </style>
@@ -266,7 +270,7 @@
             document.getElementById(windowId).classList.remove('open');
         }
 
-        // Gestion du terminal factice
+        // Gestion du terminal factice avec délai d'affichage
         function handleCommand(event) {
             if (event.key === 'Enter') {
                 const input = document.getElementById('terminal-input');
@@ -278,33 +282,34 @@
                 output.textContent = '> ' + command;
                 terminalBody.appendChild(output);
 
-                // Exemple de réponses aux commandes
-                if (command === 'help') {
-                    const helpOutput = document.createElement('p');
-                    helpOutput.textContent = 'Commandes disponibles: help, clear, hello';
-                    terminalBody.appendChild(helpOutput);
+                // Gérer les commandes avec un délai entre chaque ligne
+                if (command === 'start hack') {
+                    addDelayedMessage(terminalBody, 'Ouverture des fichiers en cours...', 1000);
+                    addDelayedMessage(terminalBody, 'Connexion au serveur...', 2000);
+                    addDelayedMessage(terminalBody, 'Connexion établie', 3000);
+                } else if (command === 'help') {
+                    addDelayedMessage(terminalBody, 'Commandes disponibles: help, clear, hello', 500);
                 } else if (command === 'clear') {
                     terminalBody.innerHTML = '<p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>';
                 } else if (command === 'hello') {
-                    const helloOutput = document.createElement('p');
-                    helloOutput.textContent = 'Bonjour, hacker!';
-                    terminalBody.appendChild(helloOutput);
-                } else if (command === 'start hack') {
-                    const helloOutput = document.createElement('p');
-                    helloOutput.textContent = 'Ouverture des fichiers en cours...';
-                    helloOutput.textContent = 'Connection au serveur...';
-                    helloOutput.textContent = 'Connection établie';
-                    terminalBody.appendChild(helloOutput);
-                }
-                else {
-                    const unknownOutput = document.createElement('p');
-                    unknownOutput.textContent = 'Commande inconnue: ' + command;
-                    terminalBody.appendChild(unknownOutput);
+                    addDelayedMessage(terminalBody, 'Bonjour, hacker!', 500);
+                } else {
+                    addDelayedMessage(terminalBody, 'Commande inconnue: ' + command, 500);
                 }
 
                 input.value = ''; // Effacer le champ de saisie après la commande
                 terminalBody.scrollTop = terminalBody.scrollHeight; // Faire défiler jusqu'en bas
             }
+        }
+
+        // Fonction pour ajouter des messages avec un délai
+        function addDelayedMessage(terminalBody, message, delay) {
+            setTimeout(function() {
+                const output = document.createElement('p');
+                output.textContent = message;
+                terminalBody.appendChild(output);
+                terminalBody.scrollTop = terminalBody.scrollHeight; // Faire défiler jusqu'en bas
+            }, delay);
         }
 
         // Drag & Drop des fenêtres
