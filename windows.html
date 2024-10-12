@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bureau Windows</title>
     <style>
+        /* Styles généraux */
         body, html {
             margin: 0;
             padding: 0;
@@ -161,6 +162,59 @@
             box-sizing: border-box;
         }
 
+        /* Styles de la fausse fenêtre Chrome */
+        .chrome-window {
+            position: absolute;
+            width: 800px;
+            height: 600px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #0078d7;
+            z-index: 15;
+            top: 100px;
+            left: 100px;
+            display: none;
+        }
+
+        .chrome-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .chrome-body {
+            background-color: #fff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            overflow: auto;
+            color: #333;
+        }
+
+        .chrome-body h1 {
+            color: #4a4a4a;
+        }
+
+        .chrome-body .search-bar {
+            background-color: #e0e0e0;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            outline: none;
+        }
+
+        .chrome-body .search-results {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -223,7 +277,7 @@
                 <span class="close-btn" onclick="closeWindow('window2')">X</span>
             </div>
             <div class="window-body">
-                Contenu des Téléchargements.
+                Contenu des téléchargements.
             </div>
         </div>
 
@@ -243,25 +297,41 @@
                 <span class="close-btn" onclick="closeWindow('window4')">X</span>
             </div>
             <div class="window-body">
-                Contenu de la Corbeille.
+                Contenu de la corbeille.
             </div>
         </div>
 
-        <!-- Fenêtre du terminal -->
+        <!-- Fenêtre Chrome -->
+        <div id="chromeWindow" class="chrome-window">
+            <div class="chrome-header" onmousedown="startDrag(event, 'chromeWindow')">
+                <span>Google</span>
+                <span class="close-btn" onclick="closeWindow('chromeWindow')">X</span>
+            </div>
+            <div class="chrome-body">
+                <input type="text" class="search-bar" id="search-bar" placeholder="Rechercher...">
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </div>
+
+        <!-- Fenêtre terminal -->
         <div id="terminalWindow" class="window">
             <div class="window-header" onmousedown="startDrag(event, 'terminalWindow')">
                 <span>Terminal</span>
                 <span class="close-btn" onclick="closeWindow('terminalWindow')">X</span>
             </div>
-            <div class="terminal-body" id="terminal-body">
-                <p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>
+            <div class="window-body">
+                <div class="terminal-body" id="terminal-body">
+                    <p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>
+                </div>
+                <input type="text" class="terminal-input" id="terminal-input" onkeydown="handleCommand(event)">
             </div>
-            <input type="text" class="terminal-input" id="terminal-input" onkeydown="handleCommand(event)">
         </div>
+
     </div>
 
     <script>
-        // Gestion des fenêtres (ouvrir/fermer)
+        let chromeWindowOpen = false;
+
         function openWindow(windowId) {
             document.getElementById(windowId).classList.add('open');
         }
@@ -270,22 +340,25 @@
             document.getElementById(windowId).classList.remove('open');
         }
 
+        function openChrome() {
+            if (!chromeWindowOpen) {
+                openWindow('chromeWindow');
+                chromeWindowOpen = true;
+            }
+        }
+
         let hackInProgress = false;
         let target = null;
 
-        // Gestion du terminal factice avec délai d'affichage
         function handleCommand(event) {
             if (event.key === 'Enter') {
                 const input = document.getElementById('terminal-input');
                 const command = input.value.trim();
                 const terminalBody = document.getElementById('terminal-body');
                 const output = document.createElement('p');
-
-                // Ajouter la commande saisie au terminal
                 output.textContent = '> ' + command;
                 terminalBody.appendChild(output);
 
-                // Gérer les commandes avec un délai entre chaque ligne
                 if (command === 'start hack') {
                     addDelayedMessage(terminalBody, 'Ouverture des fichiers en cours...', 1000);
                     addDelayedMessage(terminalBody, 'Connexion au serveur...', 2000);
@@ -308,41 +381,31 @@
                     } else {
                         addDelayedMessage(terminalBody, 'Cible non définie. Utilisez "cible [lien]" pour définir une cible.', 500);
                     }
-                } else if (command === 'help') {
-                    addDelayedMessage(terminalBody, 'Commandes disponibles: help, clear, hello, start hack, cible [lien], brute', 500);
-                } else if (command === 'clear') {
-                    terminalBody.innerHTML = '<p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>';
-                } else if (command === 'hello') {
-                    addDelayedMessage(terminalBody, 'Bonjour, hacker!', 500);
+                } else if (command === 'open chrome') {
+                    openChrome();
                 } else {
                     addDelayedMessage(terminalBody, 'Commande inconnue: ' + command, 500);
                 }
 
-                input.value = ''; // Effacer le champ de saisie après la commande
-                terminalBody.scrollTop = terminalBody.scrollHeight; // Faire défiler jusqu'en bas
+                input.value = '';
+                terminalBody.scrollTop = terminalBody.scrollHeight;
             }
         }
 
-        // Fonction pour ajouter des messages avec un délai
         function addDelayedMessage(terminalBody, message, delay) {
             setTimeout(function() {
                 const output = document.createElement('p');
                 output.textContent = message;
                 terminalBody.appendChild(output);
-                terminalBody.scrollTop = terminalBody.scrollHeight; // Faire défiler jusqu'en bas
+                terminalBody.scrollTop = terminalBody.scrollHeight;
             }, delay);
         }
 
-        // Drag & Drop des fenêtres
-        let isDragging = false;
-        let dragOffsetX = 0;
-        let dragOffsetY = 0;
-
         function startDrag(event, windowId) {
             const windowElement = document.getElementById(windowId);
-            dragOffsetX = event.clientX - windowElement.offsetLeft;
-            dragOffsetY = event.clientY - windowElement.offsetTop;
-            isDragging = true;
+            let dragOffsetX = event.clientX - windowElement.offsetLeft;
+            let dragOffsetY = event.clientY - windowElement.offsetTop;
+            let isDragging = true;
 
             document.onmousemove = function(event) {
                 if (isDragging) {
