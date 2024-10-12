@@ -250,4 +250,80 @@
                 <span class="close-btn" onclick="closeWindow('terminalWindow')">X</span>
             </div>
             <div class="terminal-body" id="terminal-body">
-                <p>Bienvenue dans le terminal fact
+                <p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>
+            </div>
+            <input type="text" class="terminal-input" id="terminal-input" onkeydown="handleCommand(event)">
+        </div>
+    </div>
+
+    <script>
+        // Gestion des fenêtres (ouvrir/fermer)
+        function openWindow(windowId) {
+            document.getElementById(windowId).classList.add('open');
+        }
+
+        function closeWindow(windowId) {
+            document.getElementById(windowId).classList.remove('open');
+        }
+
+        // Gestion du terminal factice
+        function handleCommand(event) {
+            if (event.key === 'Enter') {
+                const input = document.getElementById('terminal-input');
+                const command = input.value.trim();
+                const terminalBody = document.getElementById('terminal-body');
+                const output = document.createElement('p');
+
+                // Ajouter la commande saisie au terminal
+                output.textContent = '> ' + command;
+                terminalBody.appendChild(output);
+
+                // Exemple de réponses aux commandes
+                if (command === 'help') {
+                    const helpOutput = document.createElement('p');
+                    helpOutput.textContent = 'Commandes disponibles: help, clear, hello';
+                    terminalBody.appendChild(helpOutput);
+                } else if (command === 'clear') {
+                    terminalBody.innerHTML = '<p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>';
+                } else if (command === 'hello') {
+                    const helloOutput = document.createElement('p');
+                    helloOutput.textContent = 'Bonjour, hacker!';
+                    terminalBody.appendChild(helloOutput);
+                } else {
+                    const unknownOutput = document.createElement('p');
+                    unknownOutput.textContent = 'Commande inconnue: ' + command;
+                    terminalBody.appendChild(unknownOutput);
+                }
+
+                input.value = ''; // Effacer le champ de saisie après la commande
+                terminalBody.scrollTop = terminalBody.scrollHeight; // Faire défiler jusqu'en bas
+            }
+        }
+
+        // Drag & Drop des fenêtres
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        function startDrag(event, windowId) {
+            const windowElement = document.getElementById(windowId);
+            dragOffsetX = event.clientX - windowElement.offsetLeft;
+            dragOffsetY = event.clientY - windowElement.offsetTop;
+            isDragging = true;
+
+            document.onmousemove = function(event) {
+                if (isDragging) {
+                    windowElement.style.left = (event.clientX - dragOffsetX) + 'px';
+                    windowElement.style.top = (event.clientY - dragOffsetY) + 'px';
+                }
+            };
+
+            document.onmouseup = function() {
+                isDragging = false;
+                document.onmousemove = null;
+                document.onmouseup = null;
+            };
+        }
+    </script>
+</body>
+</html>
