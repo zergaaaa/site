@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows</title>
+    <title>Bureau Windows</title>
     <style>
         /* Styles généraux */
         body, html {
@@ -275,81 +275,28 @@
 
         <div class="taskbar">
             <div class="start-button">
-                <img src="https://cours-informatique-gratuit.fr/wp-content/uploads/2014/05/windows.png" alt="Démarrer">
+                <img src="https://cours-informatique-gratuit.fr/wp-content/uploads/2014/05/windows.png" alt="Start">
             </div>
-            <div class="clock">22:00</div>
+            <div class="clock" id="clock"></div>
         </div>
+    </div>
 
-        <!-- Fenêtres virtuelles -->
-        <div id="window1" class="window">
-            <div class="window-header" onmousedown="startDrag(event, 'window1')">
-                <span>Ce PC</span>
-                <span class="close-btn" onclick="closeWindow('window1')">X</span>
-            </div>
-            <div class="window-body">
-                Contenu du PC.
-            </div>
+    <!-- Fenêtre Chrome -->
+    <div id="chromeWindow" class="chrome-window">
+        <div class="chrome-header" onmousedown="startDrag(event, 'chromeWindow')">
+            <span>Google</span>
+            <span class="close-btn" onclick="closeWindow('chromeWindow')">X</span>
         </div>
-
-        <div id="window2" class="window">
-            <div class="window-header" onmousedown="startDrag(event, 'window2')">
-                <span>Téléchargements</span>
-                <span class="close-btn" onclick="closeWindow('window2')">X</span>
-            </div>
-            <div class="window-body">
-                Contenu des téléchargements.
-            </div>
-        </div>
-
-        <div id="window3" class="window">
-            <div class="window-header" onmousedown="startDrag(event, 'window3')">
-                <span>Fichier texte</span>
-                <span class="close-btn" onclick="closeWindow('window3')">X</span>
-            </div>
-            <div class="window-body">
-                Contenu du fichier texte.
-            </div>
-        </div>
-
-        <div id="window4" class="window">
-            <div class="window-header" onmousedown="startDrag(event, 'window4')">
-                <span>Corbeille</span>
-                <span class="close-btn" onclick="closeWindow('window4')">X</span>
-            </div>
-            <div class="window-body">
-                Contenu de la corbeille.
-            </div>
-        </div>
-
-        <!-- Fenêtre Chrome -->
-        <div id="chromeWindow" class="chrome-window">
-            <div class="chrome-header" onmousedown="startDrag(event, 'chromeWindow')">
-                <span>Google</span>
-                <span class="close-btn" onclick="closeWindow('chromeWindow')">X</span>
-            </div>
-            <div class="chrome-body">
-                <input type="text" class="search-bar" id="search-bar" placeholder="Rechercher...">
-                <div id="search-results" class="search-results"></div>
-            </div>
-        </div>
-
-        <!-- Fenêtre terminal -->
-        <div id="terminalWindow" class="window">
-            <div class="window-header" onmousedown="startDrag(event, 'terminalWindow')">
-                <span>Terminal</span>
-                <span class="close-btn" onclick="closeWindow('terminalWindow')">X</span>
-            </div>
-            <div class="window-body">
-                <div class="terminal-body" id="terminal-body">
-                    <p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>
-                </div>
-                <input type="text" class="terminal-input" id="terminal-input" onkeydown="handleCommand(event)">
-            </div>
+        <div class="chrome-body">
+            <input type="text" class="search-bar" id="search-bar" placeholder="Rechercher..." onkeydown="handleSearch(event)">
+            <div id="search-results" class="search-results"></div>
         </div>
     </div>
 
     <script>
         let chromeWindowOpen = false;
+        let hackInProgress = false;
+        let target = null;
 
         function openWindow(windowId) {
             document.getElementById(windowId).classList.add('open');
@@ -364,60 +311,6 @@
                 openWindow('chromeWindow');
                 chromeWindowOpen = true;
             }
-        }
-
-        let hackInProgress = false;
-        let target = null;
-
-        function handleCommand(event) {
-            if (event.key === 'Enter') {
-                const input = document.getElementById('terminal-input');
-                const command = input.value.trim();
-                const terminalBody = document.getElementById('terminal-body');
-                const output = document.createElement('p');
-                output.textContent = '> ' + command;
-                terminalBody.appendChild(output);
-
-                if (command === 'start hack') {
-                    addDelayedMessage(terminalBody, 'Ouverture des fichiers en cours...', 1000);
-                    addDelayedMessage(terminalBody, 'Connexion au serveur...', 2000);
-                    addDelayedMessage(terminalBody, 'Connexion établie', 3000);
-                    hackInProgress = true;
-                } else if (command.startsWith('cible ')) {
-                    if (hackInProgress) {
-                        target = command.split(' ')[1];
-                        addDelayedMessage(terminalBody, 'Cible sélectionnée: ' + target, 500);
-                        addDelayedMessage(terminalBody, 'Sélectionnez le type de hack (par ex. : brute, phishing, etc.)', 1000);
-                    } else {
-                        addDelayedMessage(terminalBody, 'Il faut d\'abord démarrer le hack avec "start hack".', 500);
-                    }
-                } else if (command === 'brute') {
-                    if (target) {
-                        addDelayedMessage(terminalBody, 'Début du piratage brut à ' + target, 1000);
-                        addDelayedMessage(terminalBody, 'Brute force en cours...', 2000);
-                        addDelayedMessage(terminalBody, 'Pirate pénétrant...', 3000);
-                        addDelayedMessage(terminalBody, 'Accès au serveur obtenu!', 4000);
-                    } else {
-                        addDelayedMessage(terminalBody, 'Cible non définie. Utilisez "cible [lien]" pour définir une cible.', 500);
-                    }
-                } else if (command === 'open chrome') {
-                    openChrome();
-                } else {
-                    addDelayedMessage(terminalBody, 'Commande inconnue: ' + command, 500);
-                }
-
-                input.value = '';
-                terminalBody.scrollTop = terminalBody.scrollHeight;
-            }
-        }
-
-        function addDelayedMessage(terminalBody, message, delay) {
-            setTimeout(function() {
-                const output = document.createElement('p');
-                output.textContent = message;
-                terminalBody.appendChild(output);
-                terminalBody.scrollTop = terminalBody.scrollHeight;
-            }, delay);
         }
 
         function startDrag(event, windowId) {
@@ -438,6 +331,25 @@
                 document.onmousemove = null;
                 document.onmouseup = null;
             };
+        }
+
+        // Fonction de recherche
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('search-bar').value;
+                const searchResults = document.getElementById('search-results');
+                searchResults.innerHTML = ''; // Clear previous results
+
+                if (query.toLowerCase().includes('hack')) {
+                    searchResults.innerHTML += '<p>Résultats trouvés pour "hack" :</p>';
+                    searchResults.innerHTML += '<ul><li><a href="#">hack-serveur-12345.com</a></li><li><a href="#">fichier-sensible.zip</a></li><li><a href="#">reconnaissance-ip-192.168.1.1</a></li></ul>';
+                } else if (query.toLowerCase().includes('fichier')) {
+                    searchResults.innerHTML += '<p>Fichiers trouvés :</p>';
+                    searchResults.innerHTML += '<ul><li><a href="#">fichier-important.txt</a></li><li><a href="#">données-sensibles.xlsx</a></li></ul>';
+                } else {
+                    searchResults.innerHTML += '<p>Aucun résultat trouvé pour "' + query + '"</p>';
+                }
+            }
         }
     </script>
 </body>
