@@ -24,21 +24,24 @@
             border-radius: 10px;
         }
 
-        #emoji {
-            font-size: 100px;
+        #image {
             display: none;
             margin-top: 20px;
+            max-width: 300px;
         }
     </style>
 </head>
 <body>
 
     <button id="btn">Cliquez ici</button>
-    <div id="emoji">🖕</div>
+    <img id="image" src="" alt="Bonhomme qui fait un doigt d'honneur" />
 
     <script>
         document.getElementById('btn').addEventListener('click', function() {
-            document.getElementById('emoji').style.display = 'block';
+            const imageElement = document.getElementById('image');
+            // Remplace cette URL par l'image que tu veux afficher
+            imageElement.src = 'https://via.placeholder.com/300?text=Image+Bonhomme+Doigt+d%27Honneur';
+            imageElement.style.display = 'block';
         });
     </script>
     
