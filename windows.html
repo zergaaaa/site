@@ -289,7 +289,12 @@
                     const helloOutput = document.createElement('p');
                     helloOutput.textContent = 'Bonjour, hacker!';
                     terminalBody.appendChild(helloOutput);
-                } else {
+                } else if (command === 'start hack') {
+                    const helloOutput = document.createElement('p');
+                    helloOutput.textContent = 'Ouverture des fichiers en cours...';
+                    terminalBody.appendChild(helloOutput);
+                }
+                else {
                     const unknownOutput = document.createElement('p');
                     unknownOutput.textContent = 'Commande inconnue: ' + command;
                     terminalBody.appendChild(unknownOutput);
