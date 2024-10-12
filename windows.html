@@ -45,11 +45,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 0.2s;
         }
 
         .icon-bg img {
             max-width: 100%;
             max-height: 100%;
+        }
+
+        .icon span {
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon-bg:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
         }
 
         .taskbar {
@@ -84,10 +96,46 @@
             color: white;
         }
 
-        /* Ajouter un effet de survol pour rendre les icônes interactives */
-        .icon-bg:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+        /* Fenêtres modales */
+        .window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+
+        .window-header {
+            background-color: #0078d7;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .window-header .close-btn {
             cursor: pointer;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .window-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .window.open {
+            display: flex;
         }
     </style>
 </head>
@@ -95,36 +143,28 @@
     <div class="desktop">
         <div class="icons">
             <div class="icon">
-                <a href="#" target="_blank">
-                    <div class="icon-bg">
-                        <img src="https://www.tenforums.com/attachments/customization/88560d1485968898t-what-each-icon-represents-means-pc-computer-icon.png" alt="Ce PC">
-                    </div>
-                    <span>Ce PC</span>
-                </a>
+                <div class="icon-bg" onclick="openWindow('window1')">
+                    <img src="https://www.tenforums.com/attachments/customization/88560d1485968898t-what-each-icon-represents-means-pc-computer-icon.png" alt="Ce PC">
+                </div>
+                <span>Ce PC</span>
             </div>
             <div class="icon">
-                <a href="#" target="_blank">
-                    <div class="icon-bg">
-                        <img src="https://telegram-stickers.github.io/public/stickers/windows-10/33.png" alt="Documents">
-                    </div>
-                    <span>Télechargement</span>
-                </a>
+                <div class="icon-bg" onclick="openWindow('window2')">
+                    <img src="https://telegram-stickers.github.io/public/stickers/windows-10/33.png" alt="Documents">
+                </div>
+                <span>Télechargement</span>
             </div>
             <div class="icon">
-                <a href="#" target="_blank">
-                    <div class="icon-bg">
-                        <img src="https://cdn.icon-icons.com/icons2/317/PNG/512/file-text-icon_34428.png" alt="Fichier texte">
-                    </div>
-                    <span>Fichier texte</span>
-                </a>
+                <div class="icon-bg" onclick="openWindow('window3')">
+                    <img src="https://cdn.icon-icons.com/icons2/317/PNG/512/file-text-icon_34428.png" alt="Fichier texte">
+                </div>
+                <span>Fichier texte</span>
             </div>
             <div class="icon">
-                <a href="#" target="_blank">
-                    <div class="icon-bg">
-                        <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
-                    </div>
-                    <span>Corbeille</span>
-                </a>
+                <div class="icon-bg" onclick="openWindow('window4')">
+                    <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
+                </div>
+                <span>Corbeille</span>
             </div>
         </div>
 
@@ -134,6 +174,57 @@
             </div>
             <div class="clock">22:00</div>
         </div>
+
+        <!-- Fenêtres virtuelles -->
+        <div id="window1" class="window">
+            <div class="window-header">
+                <span>Ce PC</span>
+                <span class="close-btn" onclick="closeWindow('window1')">X</span>
+            </div>
+            <div class="window-body">
+                Contenu de "Ce PC".
+            </div>
+        </div>
+
+        <div id="window2" class="window">
+            <div class="window-header">
+                <span>Téléchargements</span>
+                <span class="close-btn" onclick="closeWindow('window2')">X</span>
+            </div>
+            <div class="window-body">
+                Contenu des Téléchargements.
+            </div>
+        </div>
+
+        <div id="window3" class="window">
+            <div class="window-header">
+                <span>Fichier texte</span>
+                <span class="close-btn" onclick="closeWindow('window3')">X</span>
+            </div>
+            <div class="window-body">
+                Contenu du fichier texte.
+            </div>
+        </div>
+
+        <div id="window4" class="window">
+            <div class="window-header">
+                <span>Corbeille</span>
+                <span class="close-btn" onclick="closeWindow('window4')">X</span>
+            </div>
+            <div class="window-body">
+                Contenu de la Corbeille.
+            </div>
+        </div>
     </div>
+
+    <script>
+        function openWindow(id) {
+            document.getElementById(id).classList.add('open');
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.remove('open');
+        }
+    </script>
 </body>
 </html>
