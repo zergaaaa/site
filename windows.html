@@ -11,19 +11,22 @@
             height: 100%;
             font-family: Arial, sans-serif;
         }
+
         .desktop {
             height: 100vh;
             position: relative;
-            overflow: hidden;
-            <div class="fond ecrant">
-                <img src="https://www.monwindows.com/images/news/images/201506/minsize/fond-ecran-windows-10-making-of-650x391_qkwlbw.jpg" alt="fond ecrant">
+            background-image: url('https://www.monwindows.com/images/news/images/201506/minsize/fond-ecran-windows-10-making-of-650x391_qkwlbw.jpg');
+            background-size: cover;
+            background-position: center;
         }
+
         .icons {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 20px;
             padding: 20px;
         }
+
         .icon {
             display: flex;
             flex-direction: column;
@@ -31,6 +34,7 @@
             color: white;
             text-align: center;
         }
+
         .icon-bg {
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
@@ -42,10 +46,12 @@
             justify-content: center;
             align-items: center;
         }
+
         .icon-bg img {
             max-width: 100%;
             max-height: 100%;
         }
+
         .taskbar {
             position: absolute;
             bottom: 0;
@@ -57,6 +63,7 @@
             align-items: center;
             padding: 0 10px;
         }
+
         .start-button {
             width: 30px;
             height: 30px;
@@ -66,13 +73,21 @@
             justify-content: center;
             align-items: center;
         }
+
         .start-button img {
             max-width: 80%;
             max-height: 80%;
         }
+
         .clock {
             margin-left: auto;
             color: white;
+        }
+
+        /* Ajouter un effet de survol pour rendre les icônes interactives */
+        .icon-bg:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
         }
     </style>
 </head>
@@ -80,30 +95,39 @@
     <div class="desktop">
         <div class="icons">
             <div class="icon">
-                <div class="icon-bg">
-                    <img src="https://www.tenforums.com/attachments/customization/88560d1485968898t-what-each-icon-represents-means-pc-computer-icon.png" alt="Ce PC">
-                </div>
-                <span>Ce PC</span>
+                <a href="#" target="_blank">
+                    <div class="icon-bg">
+                        <img src="https://www.tenforums.com/attachments/customization/88560d1485968898t-what-each-icon-represents-means-pc-computer-icon.png" alt="Ce PC">
+                    </div>
+                    <span>Ce PC</span>
+                </a>
             </div>
             <div class="icon">
-                <div class="icon-bg">
-                    <img src="https://telegram-stickers.github.io/public/stickers/windows-10/33.png" alt="Documents">
-                </div>
-                <span>Télechargement</span>
+                <a href="#" target="_blank">
+                    <div class="icon-bg">
+                        <img src="https://telegram-stickers.github.io/public/stickers/windows-10/33.png" alt="Documents">
+                    </div>
+                    <span>Télechargement</span>
+                </a>
             </div>
             <div class="icon">
-                <div class="icon-bg">
-                    <img src="https://cdn.icon-icons.com/icons2/317/PNG/512/file-text-icon_34428.png" alt="Fichier texte">
-                </div>
-                <span>Fichier texte</span>
+                <a href="#" target="_blank">
+                    <div class="icon-bg">
+                        <img src="https://cdn.icon-icons.com/icons2/317/PNG/512/file-text-icon_34428.png" alt="Fichier texte">
+                    </div>
+                    <span>Fichier texte</span>
+                </a>
             </div>
             <div class="icon">
-                <div class="icon-bg">
-                    <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
-                </div>
-                <span>Corbeille</span>
+                <a href="#" target="_blank">
+                    <div class="icon-bg">
+                        <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
+                    </div>
+                    <span>Corbeille</span>
+                </a>
             </div>
         </div>
+
         <div class="taskbar">
             <div class="start-button">
                 <img src="https://cours-informatique-gratuit.fr/wp-content/uploads/2014/05/windows.png" alt="Démarrer">
