@@ -270,6 +270,9 @@
             document.getElementById(windowId).classList.remove('open');
         }
 
+        let hackInProgress = false;
+        let target = null;
+
         // Gestion du terminal factice avec délai d'affichage
         function handleCommand(event) {
             if (event.key === 'Enter') {
@@ -287,8 +290,26 @@
                     addDelayedMessage(terminalBody, 'Ouverture des fichiers en cours...', 1000);
                     addDelayedMessage(terminalBody, 'Connexion au serveur...', 2000);
                     addDelayedMessage(terminalBody, 'Connexion établie', 3000);
+                    hackInProgress = true;
+                } else if (command.startsWith('cible ')) {
+                    if (hackInProgress) {
+                        target = command.split(' ')[1];
+                        addDelayedMessage(terminalBody, 'Cible sélectionnée: ' + target, 500);
+                        addDelayedMessage(terminalBody, 'Sélectionnez le type de hack (par ex. : brute, phishing, etc.)', 1000);
+                    } else {
+                        addDelayedMessage(terminalBody, 'Il faut d\'abord démarrer le hack avec "start hack".', 500);
+                    }
+                } else if (command === 'brute') {
+                    if (target) {
+                        addDelayedMessage(terminalBody, 'Début du piratage brut à ' + target, 1000);
+                        addDelayedMessage(terminalBody, 'Brute force en cours...', 2000);
+                        addDelayedMessage(terminalBody, 'Pirate pénétrant...', 3000);
+                        addDelayedMessage(terminalBody, 'Accès au serveur obtenu!', 4000);
+                    } else {
+                        addDelayedMessage(terminalBody, 'Cible non définie. Utilisez "cible [lien]" pour définir une cible.', 500);
+                    }
                 } else if (command === 'help') {
-                    addDelayedMessage(terminalBody, 'Commandes disponibles: help, clear, hello', 500);
+                    addDelayedMessage(terminalBody, 'Commandes disponibles: help, clear, hello, start hack, cible [lien], brute', 500);
                 } else if (command === 'clear') {
                     terminalBody.innerHTML = '<p>Bienvenue dans le terminal factice. Tapez vos commandes ci-dessous :</p>';
                 } else if (command === 'hello') {
