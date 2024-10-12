@@ -1,126 +1,60 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bureau Windows</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("https://s2.best-wallpaper.net/wallpaper/3840x2160/1806/Windows-10-screen-creative_3840x2160.jpg"); /* Fond d'écran Windows */
-            background-size: cover;
-            display: flex;
-            flex-direction: column;
-        }
+import { Laptop, Folder, FileText, Trash2, Settings, Power } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-        /* Barre des tâches */
-        .taskbar {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-            background-color: #1f1f1f;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-        }
+export default function Component() {
+  return (
+    <div className="w-full h-screen bg-[#0078D7] relative overflow-hidden p-4">
+      {/* Desktop Icons */}
+      <div className="grid grid-cols-6 gap-4">
+        <DesktopIcon icon={<Laptop size={32} />} label="Ce PC" />
+        <DesktopIcon icon={<Folder size={32} />} label="Documents" />
+        <DesktopIcon icon={<FileText size={32} />} label="Fichier texte" />
+        <DesktopIcon icon={<Trash2 size={32} />} label="Corbeille" />
+      </div>
 
-        /* Bouton Démarrer */
-        .start-button {
-            width: 80px;
-            height: 100%;
-            background-color: #0078d7;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Icônes de la barre des tâches */
-        .taskbar-icons {
-            display: flex;
-            align-items: center;
-            margin-left: 10px;
-        }
-
-        .taskbar-icon {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-            background-color: #555;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Bureau avec des icônes */
-        .desktop {
-            flex-grow: 1;
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            padding: 10px;
-        }
-
-        .icon {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 10px;
-            cursor: pointer;
-        }
-
-        .icon img {
-            width: 64px;
-            height: 64px;
-        }
-
-        .icon label {
-            margin-top: 5px;
-            text-align: center;
-            color: white;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
-</head>
-<body>
-    <!-- Bureau -->
-    <div class="desktop">
-        <div class="icon">
-            <img src="https://www.icone-png.com/png/54/54079.png" alt="Dossier">
-            <label>Dossier</label>
+      {/* Taskbar */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 bg-gray-900 flex items-center px-2">
+        <Button variant="ghost" className="h-10 w-10 p-0">
+          <img src="/placeholder.svg?height=32&width=32" alt="Windows logo" className="w-8 h-8" />
+        </Button>
+        <div className="flex-grow" />
+        <div className="flex items-center space-x-2 text-white text-sm">
+          <span>22:00</span>
+          <span>12/10/2024</span>
         </div>
-        <div class="icon">
-            <img src="https://www.pngall.com/wp-content/uploads/5/Google-PNG-Image.png" alt="Chrome">
-            <label>Navigateur</label>
+      </div>
+
+      {/* Start Menu (hidden by default) */}
+      <div className="absolute bottom-12 left-0 w-64 bg-gray-800 text-white p-4 hidden">
+        <div className="flex items-center space-x-2 mb-4">
+          <img src="/placeholder.svg?height=40&width=40" alt="User avatar" className="w-10 h-10 rounded-full" />
+          <span>Utilisateur</span>
         </div>
-        <div class="icon">
-            <img src="https://vignette.wikia.nocookie.net/logopedia/images/7/70/Recycle_Bin_Windows_10_empty.PNG/revision/latest?cb=20180501041935" alt="Corbeille">
-            <label>Corbeille</label>
+        <div className="space-y-2">
+          <MenuItem icon={<Settings size={20} />} label="Paramètres" />
+          <MenuItem icon={<Power size={20} />} label="Arrêter" />
         </div>
+      </div>
     </div>
+  )
+}
 
-    <!-- Barre des tâches -->
-    <div class="taskbar">
-        <div class="start-button">Démarrer</div>
-        <div class="taskbar-icons">
-            <div class="taskbar-icon">Edge</div>
-            <div class="taskbar-icon">Mail</div>
-            <div class="taskbar-icon">Explorateur</div>
-        </div>
+function DesktopIcon({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="flex flex-col items-center space-y-1 text-white">
+      <div className="bg-white bg-opacity-20 p-2 rounded-lg">
+        {icon}
+      </div>
+      <span className="text-xs text-center">{label}</span>
     </div>
-</body>
-</html>
+  )
+}
+
+function MenuItem({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded cursor-pointer">
+      {icon}
+      <span>{label}</span>
+    </div>
+  )
+}
