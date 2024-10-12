@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bureau Windows</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.example.com/windows-wallpaper.jpg'); /* Fond d'écran Windows */
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barre des tâches */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #1f1f1f;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Bouton Démarrer */
+        .start-button {
+            width: 80px;
+            height: 100%;
+            background-color: #0078d7;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Icônes de la barre des tâches */
+        .taskbar-icons {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .taskbar-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Bureau avec des icônes */
+        .desktop {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            padding: 10px;
+        }
+
+        .icon {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .icon img {
+            width: 64px;
+            height: 64px;
+        }
+
+        .icon label {
+            margin-top: 5px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bureau -->
+    <div class="desktop">
+        <div class="icon">
+            <img src="https://www.example.com/icon-folder.png" alt="Dossier">
+            <label>Dossier</label>
+        </div>
+        <div class="icon">
+            <img src="https://www.example.com/icon-browser.png" alt="Navigateur">
+            <label>Navigateur</label>
+        </div>
+        <div class="icon">
+            <img src="https://www.example.com/icon-recycle-bin.png" alt="Corbeille">
+            <label>Corbeille</label>
+        </div>
+    </div>
+
+    <!-- Barre des tâches -->
+    <div class="taskbar">
+        <div class="start-button">Démarrer</div>
+        <div class="taskbar-icons">
+            <div class="taskbar-icon">Edge</div>
+            <div class="taskbar-icon">Mail</div>
+            <div class="taskbar-icon">Explorateur</div>
+        </div>
+    </div>
+</body>
+</html>
