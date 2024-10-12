@@ -225,6 +225,16 @@
             border: 1px solid #ccc;
             margin-top: 20px;
         }
+
+        /* Minimisation de la fenetre chrome */
+        .chrome-window.open {
+            display: block;
+        }
+
+        /* Styles supplémentaires */
+        .minimize-btn {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -336,7 +346,6 @@
                 <input type="text" class="terminal-input" id="terminal-input" onkeydown="handleCommand(event)">
             </div>
         </div>
-
     </div>
 
     <script>
