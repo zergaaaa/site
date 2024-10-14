@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>petit J</title>
+    <style>
+        @keyframes psychedelic {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ff00ff, #00ffff, #ff00ff, #ffff00);
+            background-size: 400% 400%;
+            animation: psychedelic 15s ease infinite;
+        }
+
+        .counter-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .counter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border-radius: 15px;
+            min-width: 80px;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-top: 2rem;
+            animation: rotate 10s linear infinite;
+        }
+
+        @media (max-width: 600px) {
+            .counter {
+                flex-wrap: wrap;
+            }
+            .time-unit {
+                min-width: 60px;
+            }
+            .time-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="counter-box">
+            <h2>Temps jusqu'à mercredi 14h</h2>
+            <div class="counter">
+                <div class="time-unit">
+                    <span class="time-label">Jours</span>
+                    <span id="days" class="time-value">00</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-label">Heures</span>
+                    <span id="hours" class="time-value">00</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-label">Minutes</span>
+                    <span id="minutes" class="time-value">00</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-label">Secondes</span>
+                    <span id="seconds" class="time-value">00</span>
+                </div>
+            </div>
+            <div class="icon">🌈</div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            let target = new Date(now);
+            target.setDate(target.getDate() + (3 - target.getDay() + 7) % 7);
+            target.setHours(14, 0, 0, 0);
+
+            if (now > target) {
+                target.setDate(target.getDate() + 7);
+            }
+
+            const diff = target - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+    </script>
+</body>
+</html>
