@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffre-fort Numérique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .safe {
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(145deg, #b8b8b8, #d9d9d9);
+            border: 15px solid #888;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .safe-door {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #a0a0a0, #c0c0c0);
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .safe-door.open {
+            transform: perspective(1000px) rotateY(-105deg);
+            transform-origin: left;
+        }
+        .screen {
+            width: 80%;
+            height: 40px;
+            background-color: #000;
+            border: 2px solid #444;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            color: #0f0;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 80%;
+        }
+        .key {
+            aspect-ratio: 1;
+            font-size: 24px;
+            background: linear-gradient(145deg, #d9d9d9, #b8b8b8);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .key:active {
+            transform: scale(0.95);
+            background: linear-gradient(145deg, #b8b8b8, #d9d9d9);
+        }
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .content img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="safe">
+        <div class="safe-door">
+            <div class="screen" id="screen">----</div>
+            <div class="keypad">
+                <button class="key" onclick="addDigit(1)">1</button>
+                <button class="key" onclick="addDigit(2)">2</button>
+                <button class="key" onclick="addDigit(3)">3</button>
+                <button class="key" onclick="addDigit(4)">4</button>
+                <button class="key" onclick="addDigit(5)">5</button>
+                <button class="key" onclick="addDigit(6)">6</button>
+                <button class="key" onclick="addDigit(7)">7</button>
+                <button class="key" onclick="addDigit(8)">8</button>
+                <button class="key" onclick="addDigit(9)">9</button>
+                <button class="key" onclick="clearCode()">C</button>
+                <button class="key" onclick="addDigit(0)">0</button>
+                <button class="key" onclick="checkCode()">E</button>
+            </div>
+        </div>
+        <div class="content">
+            <img src="https://media.discordapp.net/attachments/1108858010429825036/1299386709456453682/rodeo.png?ex=671d03ac&is=671bb22c&hm=525aad21d00c775ac635bc5d2b1da3e32776e0dabb7aa2413ea92e15cf06eb58&=&format=webp&quality=lossless&width=559&height=559" alt="Contenu secret">
+        </div>
+    </div>
+
+    <script>
+        let code = '';
+        const correctCode = '6398';
+
+        function addDigit(digit) {
+            if (code.length < 4) {
+                code += digit;
+                updateScreen();
+            }
+        }
+
+        function clearCode() {
+            code = '-';
+            updateScreen();
+        }
+
+        function updateScreen() {
+            const screen = document.getElementById('screen');
+            screen.textContent = code.padEnd(4, '-');
+        }
+
+        function checkCode() {
+            if (code === correctCode) {
+                document.querySelector('.safe-door').classList.add('open');
+                setTimeout(() => {
+                    alert('Coffre-fort ouvert !');
+                }, 500);
+            } else {
+                alert('Code incorrect !');
+                clearCode();
+            }
+        }
+    </script>
+</body>
+</html>
