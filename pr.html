@@ -257,8 +257,8 @@
 
         <div class="status-panel">
           <div class="circles">
-            <div class="circle">100%</div>
-            <div class="circle">100%</div>
+            <div class="circle air-circle">100%</div>
+            <div class="circle food-circle">100%</div>
           </div>
           
           <div class="gauge-container">
@@ -297,7 +297,11 @@
     const sliderFill = document.querySelector('.slider-fill');
     const sliderHandle = document.querySelector('.slider-handle');
     const ventilationValue = document.querySelector('.ventilation-value');
-    
+    const airCircle = document.querySelector('.air-circle');
+    const foodCircle = document.querySelector('.food-circle');
+    const gaugeValue = document.querySelector('.gauge-value');
+    const airStatus = document.querySelector('.air-status');
+
     let systemActive = false;
     let isDragging = false;
 
@@ -312,23 +316,24 @@
 
     // Power button
     power.addEventListener('click', () => {
-      systemActive = !systemActive;
-      if (systemActive) {
+      if (!systemActive) {
+        systemActive = true;
         dashboard.classList.add('active');
         document.querySelectorAll('.bar').forEach((bar, index) => {
           const widths = [95, 75];
           bar.style.width = widths[index] + '%';
         });
-        document.querySelector('.gauge-value').style.strokeDashoffset = 0;
+        gaugeValue.style.strokeDashoffset = 0;
       } else {
+        systemActive = false;
         dashboard.classList.remove('active');
-        document.querySelectorAll('.bar').forEach((bar) => {
+        document.querySelectorAll('.bar').forEach(bar => {
           bar.style.width = '0';
         });
-        document.querySelector('.gauge-value').style.strokeDashoffset = 360;
-        sliderFill.style.width = '0';
-        sliderHandle.style.left = '0';
-        ventilationValue.textContent = '0%';
+        gaugeValue.style.strokeDashoffset = 360;
+        airCircle.textContent = '100%';
+        foodCircle.textContent = '100%';
+        airStatus.textContent = 'UNCONTAMINATED AIR';
       }
     });
 
@@ -338,7 +343,6 @@
         const rect = slider.getBoundingClientRect();
         let value = (e.clientX - rect.left) / rect.width;
         value = Math.max(0, Math.min(1, value));
-        
         sliderFill.style.width = `${value * 100}%`;
         sliderHandle.style.left = `${value * 100}%`;
         ventilationValue.textContent = `${Math.round(value * 100)}%`;
@@ -360,6 +364,31 @@
 
     document.addEventListener('mouseup', () => {
       isDragging = false;
+    });
+
+    // Simulate condition when pressing "e"
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'e' && systemActive) {
+        let airQuality = 100;
+        let foodQuality = 100;
+
+        const interval = setInterval(() => {
+          if (airQuality > 0) {
+            airQuality -= 5;
+            foodQuality -= 3;
+            airCircle.textContent = `${airQuality}%`;
+            foodCircle.textContent = `${foodQuality}%`;
+            gaugeValue.style.strokeDashoffset = (360 * (100 - airQuality)) / 100;
+
+            if (airQuality <= 50) {
+              airStatus.textContent = 'CONTAMINATED AIR';
+              airStatus.style.color = 'var(--danger)';
+            }
+          } else {
+            clearInterval(interval);
+          }
+        }, 500);
+      }
     });
   </script>
 </body>
