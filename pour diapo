@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --text: #7a7a8c;
+      --accent: #00ff9d;
+      --danger: #ff0033;
+      --card: #12121f;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .verification {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .scan {
+      width: 300px;
+      height: 300px;
+      border: 2px solid var(--text);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scan::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      animation: scan 3s linear infinite;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(300px); }
+    }
+
+    .container {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+      padding: 2rem;
+    }
+
+    .dashboard {
+      background: var(--card);
+      padding: 2rem;
+      border: 1px solid var(--text);
+    }
+
+    .header {
+      color: var(--accent);
+      font-size: 24px;
+      margin-bottom: 2rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .bar-container {
+      background: #0000001a;
+      padding: 1rem;
+      border: 1px solid var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .bar-label {
+      margin-bottom: 0.5rem;
+    }
+
+    .bar {
+      height: 4px;
+      background: var(--accent);
+      width: 0;
+      transition: width 1s;
+    }
+
+    .circles {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .circle {
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--text);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      opacity: 0.3;
+    }
+
+    .active .circle {
+      border-color: var(--accent);
+      opacity: 1;
+    }
+
+    .gauge-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .gauge {
+      stroke: var(--text);
+      stroke-width: 4;
+      fill: none;
+    }
+
+    .gauge-value {
+      stroke: var(--accent);
+      stroke-dasharray: 360;
+      stroke-dashoffset: 360;
+    }
+
+    .air-status {
+      margin-top: 1rem;
+      opacity: 0.3;
+    }
+
+    .active .air-status {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .power {
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--text);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .power-icon {
+      color: var(--text);
+    }
+
+    .active .power-icon {
+      color: var(--accent);
+    }
+
+    .ventilation-control {
+      flex-grow: 1;
+      position: relative;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slider {
+      flex-grow: 1;
+      height: 4px;
+      background: var(--text);
+      opacity: 0.3;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .slider-fill {
+      position: absolute;
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+    }
+
+    .slider-handle {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 50%;
+      left: 0;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    .active .slider {
+      opacity: 1;
+    }
+
+    .active .slider-handle {
+      display: block;
+    }
+
+    .ventilation-value {
+      min-width: 50px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="verification">
+    <div class="scan"></div>
+    <div class="status">AGE VERIFICATION IN PROGRESS...</div>
+  </div>
+
+  <div class="container">
+    <div class="dashboard">
+      <h1 class="header">System Access Granted</h1>
+      
+      <div class="main-grid">
+        <div class="metrics">
+          <div class="bar-container">
+            <div class="bar-label">FONN</div>
+            <div class="bar"></div>
+          </div>
+          <div class="bar-container">
+            <div class="bar-label">RIZ</div>
+            <div class="bar"></div>
+          </div>
+          <div class="bar-container">
+            <div class="bar-label">LENTILLES</div>
+            <div class="bar"></div>
+          </div>
+        </div>
+
+        <div class="status-panel">
+          <div class="circles">
+            <div class="circle">100%</div>
+            <div class="circle">100%</div>
+          </div>
+          
+          <div class="gauge-container">
+            <svg viewBox="0 0 100 50">
+              <path class="gauge" d="M10,40 A40,40 0 0,1 90,40"/>
+              <path class="gauge gauge-value" d="M10,40 A40,40 0 0,1 90,40"/>
+            </svg>
+            <div class="air-status">UNCONTAMINATED AIR</div>
+          </div>
+
+          <div class="controls">
+            <div class="power">
+              <svg class="power-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0M12 2v10"/>
+              </svg>
+            </div>
+            <div class="ventilation-control">
+              <div class="slider">
+                <div class="slider-fill"></div>
+                <div class="slider-handle"></div>
+              </div>
+              <div class="ventilation-value">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const verification = document.querySelector('.verification');
+    const container = document.querySelector('.container');
+    const dashboard = document.querySelector('.dashboard');
+    const power = document.querySelector('.power');
+    const slider = document.querySelector('.slider');
+    const sliderFill = document.querySelector('.slider-fill');
+    const sliderHandle = document.querySelector('.slider-handle');
+    const ventilationValue = document.querySelector('.ventilation-value');
+    
+    let systemActive = false;
+    let isDragging = false;
+
+    // Verification process
+    setTimeout(() => {
+      verification.innerHTML = '<div style="color: var(--accent)">AGE VERIFIED - ACCESS GRANTED</div>';
+      setTimeout(() => {
+        verification.style.display = 'none';
+        container.style.display = 'block';
+      }, 1000);
+    }, 3000);
+
+    // Power button
+    power.addEventListener('click', () => {
+      if (!systemActive) {
+        systemActive = true;
+        dashboard.classList.add('active');
+        document.querySelectorAll('.bar').forEach((bar, index) => {
+          const widths = [85, 95, 75];
+          bar.style.width = widths[index] + '%';
+        });
+        document.querySelector('.gauge-value').style.strokeDashoffset = 0;
+      }
+    });
+
+    // Ventilation control
+    function updateSlider(e) {
+      if (systemActive) {
+        const rect = slider.getBoundingClientRect();
+        let value = (e.clientX - rect.left) / rect.width;
+        value = Math.max(0, Math.min(1, value));
+        
+        sliderFill.style.width = `${value * 100}%`;
+        sliderHandle.style.left = `${value * 100}%`;
+        ventilationValue.textContent = `${Math.round(value * 100)}%`;
+      }
+    }
+
+    slider.addEventListener('mousedown', (e) => {
+      if (systemActive) {
+        isDragging = true;
+        updateSlider(e);
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        updateSlider(e);
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>
