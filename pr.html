@@ -26,6 +26,10 @@
       align-items: center;
     }
 
+    .hidden {
+      display: none;
+    }
+
     .verification {
       position: fixed;
       inset: 0;
@@ -234,12 +238,12 @@
   </style>
 </head>
 <body>
-  <div class="verification">
+  <div class="verification hidden">
     <div class="scan"></div>
     <div class="status">AGE VERIFICATION IN PROGRESS...</div>
   </div>
 
-  <div class="container">
+  <div class="container hidden">
     <div class="dashboard">
       <h1 class="header">System Access Granted</h1>
       
@@ -291,108 +295,20 @@
   <script>
     const verification = document.querySelector('.verification');
     const container = document.querySelector('.container');
-    const dashboard = document.querySelector('.dashboard');
-    const power = document.querySelector('.power');
-    const slider = document.querySelector('.slider');
-    const sliderFill = document.querySelector('.slider-fill');
-    const sliderHandle = document.querySelector('.slider-handle');
-    const ventilationValue = document.querySelector('.ventilation-value');
-    const airCircle = document.querySelector('.air-circle');
-    const foodCircle = document.querySelector('.food-circle');
-    const gaugeValue = document.querySelector('.gauge-value');
-    const airStatus = document.querySelector('.air-status');
 
-    let systemActive = false;
-    let isDragging = false;
-    let airQuality = 100;
-    let foodQuality = 100;
-    let contaminationInterval;
-
-    // Verification process
-    setTimeout(() => {
-      verification.innerHTML = '<div style="color: var(--accent)">AGE VERIFIED - ACCESS GRANTED</div>';
-      setTimeout(() => {
-        verification.style.display = 'none';
-        container.style.display = 'block';
-      }, 1000);
-    }, 3000);
-
-    // Power button
-    power.addEventListener('click', () => {
-      if (!systemActive) {
-        systemActive = true;
-        dashboard.classList.add('active');
-        document.querySelectorAll('.bar').forEach((bar, index) => {
-          const widths = [95, 75];
-          bar.style.width = widths[index] + '%';
-        });
-        gaugeValue.style.strokeDashoffset = 0;
-        airQuality = 100;
-        foodQuality = 100;
-      } else {
-        systemActive = false;
-        dashboard.classList.remove('active');
-        document.querySelectorAll('.bar').forEach(bar => {
-          bar.style.width = '0';
-        });
-        gaugeValue.style.strokeDashoffset = 360;
-        airCircle.textContent = '100%';
-        foodCircle.textContent = '100%';
-        airStatus.textContent = 'UNCONTAMINATED AIR';
-        airStatus.style.color = 'var(--accent)';
-        clearInterval(contaminationInterval);
-      }
-    });
-
-    // Ventilation control
-    function updateSlider(e) {
-      if (systemActive) {
-        const rect = slider.getBoundingClientRect();
-        let value = (e.clientX - rect.left) / rect.width;
-        value = Math.max(0, Math.min(1, value));
-        sliderFill.style.width = `${value * 100}%`;
-        sliderHandle.style.left = `${value * 100}%`;
-        ventilationValue.textContent = `${Math.round(value * 100)}%`;
-      }
-    }
-
-    slider.addEventListener('mousedown', (e) => {
-      if (systemActive) {
-        isDragging = true;
-        updateSlider(e);
-      }
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        updateSlider(e);
-      }
-    });
-
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    // Simulate condition when pressing "e"
+    // Wait for 'M' key press to start the animation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'e' && systemActive) {
-        clearInterval(contaminationInterval); // Reset interval to prevent stacking
-        contaminationInterval = setInterval(() => {
-          if (airQuality > 0 || foodQuality > 0) {
-            airQuality = Math.max(0, airQuality - 1);
-            foodQuality = Math.max(0, foodQuality - 0.5);
-            airCircle.textContent = `${Math.round(airQuality)}%`;
-            foodCircle.textContent = `${Math.round(foodQuality)}%`;
-            gaugeValue.style.strokeDashoffset = (360 * (100 - airQuality)) / 100;
+      if (e.key === 'M' || e.key === 'm') {
+        verification.classList.remove('hidden');
 
-            if (airQuality <= 50) {
-              airStatus.textContent = 'CONTAMINATED AIR';
-              airStatus.style.color = 'var(--danger)';
-            }
-          } else {
-            clearInterval(contaminationInterval);
-          }
-        }, 500);
+        // Start the verification process
+        setTimeout(() => {
+          verification.innerHTML = '<div style="color: var(--accent)">AGE VERIFIED - ACCESS GRANTED</div>';
+          setTimeout(() => {
+            verification.style.display = 'none';
+            container.classList.remove('hidden');
+          }, 1000);
+        }, 3000);
       }
     });
   </script>
